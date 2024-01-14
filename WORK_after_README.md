@@ -1,3 +1,5 @@
+项目文档地址：https://shimo.im/docs/8Nk6evmlaniX6wqL
+
 go版本采用go1.19,开发之前可以使用go version命令查看自己的go版本
 
 > 理论上go1.19的子版本都可以,稍高的版本应该也行,但是不建议用很新的版本
