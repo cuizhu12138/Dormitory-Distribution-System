@@ -12,8 +12,6 @@ config目录为配置文件存放目录,其中config.go为全局配置文件
 
 .gitignore文件也已经编写，clone后请将其中对于config文件的注释去掉，以免上传config文件(目前阶段没有服务器地址，似乎上传也行)
 
-
-
 # Angular 规范
 
 ```txt
