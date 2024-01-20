@@ -4,3 +4,10 @@ CREATE TABLE Login(
     SchoolNumber text,
     PassWord text
 );
+CREATE TABLE UserFeedback (
+    FeedbackID INT AUTO_INCREMENT,
+    UserID BIGINT,
+    FeedbackContent TEXT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) 
+);
