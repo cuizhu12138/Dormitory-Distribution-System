@@ -32,10 +32,4 @@ func Feedback(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "反馈成功"})
 }
 
-/*
-{
-  "UserID": 123,
-  "FeedbackContent": "This is a sample feedback",
-  "Timestamp": "2024-01-21T12:34:56Z"
-}
-*/
+
