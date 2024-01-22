@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Dormitory-Distribution-System/midware"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -8,7 +9,7 @@ import (
 
 func main() {
 	// init some service like database or some other connections
-	go InitService()
+	go midware.InitService()
 
 	r := gin.Default()
 
@@ -17,8 +18,4 @@ func main() {
 	r.Run()
 
 	fmt.Println("Init Success")
-}
-
-func InitService() {
-
 }
