@@ -33,8 +33,11 @@ func InitService() {
 	if err = DB.AutoMigrate(&Login{}); err != nil {
 		fmt.Printf("[DB Err]\t%v\n", err)
 	}
-	// init DataSheet
+	if DB, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{}); err != nil {
+		fmt.Printf("[DB Err]\t%v\n", err)
+	}
 	if err = DB.AutoMigrate(&UserFeedback{}); err != nil {
 		fmt.Printf("[DB Err]\t%v\n", err)
 	}
+	// init DataSheet
 }
