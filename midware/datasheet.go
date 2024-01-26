@@ -23,6 +23,6 @@ type UserFeedback struct {
 	Timestamp       time.Time
 }
 
-func (UserFeedback) TableName2() string {
+func (UserFeedback) TableName() string {
 	return "UserFeedback"
 }
