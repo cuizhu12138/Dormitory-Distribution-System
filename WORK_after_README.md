@@ -1,4 +1,6 @@
-项目文档地址：https://shimo.im/docs/8Nk6evmlaniX6wqL
+项目过程文档地址：https://shimo.im/docs/8Nk6evmlaniX6wqL
+
+项目文档地址：https://shimo.im/docs/wV3VMyzgJ9cbb0Ay
 
 go版本采用go1.19,开发之前可以使用go version命令查看自己的go版本
 
