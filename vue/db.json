@@ -1,0 +1,398 @@
+{
+  "posts": [
+    {
+      "id": "eee8",
+      "name": "西巴",
+      "region": "shanghai"
+    },
+    {
+      "id": "4338",
+      "name": "西巴",
+      "region": "shanghai"
+    },
+    {
+      "id": "a728",
+      "name": "西巴",
+      "region": "beijing"
+    },
+    {
+      "id": "9c47",
+      "name": "代伊扬",
+      "sex": "男"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "name": "测试json",
+      "email": "test@test.com",
+      "body": "测试json"
+    },
+    {
+      "id": "2",
+      "name": "测试json",
+      "email": "test@test.com",
+      "body": "测试json"
+    }
+  ],
+  "profile": {
+    "name": "测试json"
+  },
+  "userInfo": [
+    {
+      "username": 2204020203,
+      "password": 123456,
+      "userid": 2204020203,
+      "id": "d7f2"
+    }
+  ],
+  "questionnaireInfo": [
+    {
+      "qid": 0,
+      "title": "2021 Freshman First Questionnaire",
+      "state": "Disabled",
+      "number": 235,
+      "id": "3173"
+    },
+    {
+      "qid": 1,
+      "title": "2022 Freshman First Questionnaire",
+      "state": "Disabled",
+      "number": 235,
+      "id": "ac1e"
+    },
+    {
+      "qid": 2,
+      "title": "2022 Freshman First Questionnaire",
+      "state": "Submitted",
+      "number": 1,
+      "id": "6fdc"
+    },
+    {
+      "qid": 3,
+      "title": "2023 Freshman Second Questionnaire",
+      "state": "Enabled",
+      "number": 0,
+      "id": "0daa"
+    }
+  ],
+  "allocationResults": [
+    {
+      "dormusername": "代伊扬",
+      "smoke": "Yes",
+      "home": [
+        "Hubei",
+        "Wuhan"
+      ],
+      "learnInDorm": "Yes",
+      "hobby": [
+        "Sports",
+        "Surfing the Internet"
+      ],
+      "id": "55e1"
+    },
+    {
+      "dormusername": "闫佳安",
+      "smoke": "No",
+      "home": [
+        "Guangdong",
+        "Guangzhou"],
+      "learnInDorm": "Yes",
+      "hobby": [
+        "Surfing the Internet",
+        "Sports"
+      ],
+      "id": "4a03"
+    },
+    {
+      "dormusername": "曾凡欧",
+      "smoke": "No",
+      "home": [
+        "Sichuan",
+        "Chengdu"
+      ],
+      "learnInDorm": "Yes",
+      "hobby": [
+        "Surfing the Internet",
+        "Draw pictures"
+      ],
+      "id": "e994"
+    },
+    {
+      "dormusername": "齐宇航",
+      "smoke": "No",
+      "home": [
+        "Jilin",
+        "Baicheng"
+      ],
+      "learnInDorm": "Yes",
+      "hobby": [
+        "Surfing the Internet",
+        "Read books"
+      ],
+      "id": "df8b"
+    }
+  ],
+  "questionnaire": [
+    {
+      "id": "fb63",
+      "qid": {
+        "isTrusted": true
+      },
+      "studentId": "2204020203",
+      "name": "代伊扬",
+      "sex": "男",
+      "major": "网络工程",
+      "age": "20",
+      "home": [
+        "湖北省",
+        "武汉市"
+      ],
+      "ethnic": "汉族",
+      "sleepTime": "0",
+      "getupTime": "0",
+      "learnInDorm": "0",
+      "neatExpection": "0",
+      "cleanPeriod": "0",
+      "bathePeriod": "1",
+      "expense": "1",
+      "costType": [
+        "吃饭，买零食",
+        "社交"
+      ],
+      "outCost": "1",
+      "shareCost": "0",
+      "hobby": [
+        "网上冲浪",
+        "读书学习"
+      ],
+      "hobbySameExpection": "1",
+      "wantCommunicate": "1",
+      "smoke": "1",
+      "drink": "1",
+      "snore": "1",
+      "sleepQuality": "0"
+    },
+    {
+      "id": "f572",
+      "qid": {
+        "isTrusted": true
+      },
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "e48b",
+      "qid": {
+        "isTrusted": true
+      },
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "17fb",
+      "qid": {
+        "isTrusted": true
+      },
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "7af2",
+      "qid": {
+        "isTrusted": true
+      },
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "2504",
+      "questionnaireId": {
+        "isTrusted": true
+      },
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "d912",
+      "questionnaireId": null,
+      "studentId": null,
+      "name": "",
+      "sex": "",
+      "major": "",
+      "age": "",
+      "home": [],
+      "ethnic": "",
+      "sleepTime": null,
+      "getupTime": null,
+      "sameRoutine": null,
+      "learnInDorm": null,
+      "neatExpection": null,
+      "cleanPeriod": null,
+      "bathePeriod": null,
+      "expense": null,
+      "costType": [],
+      "outCost": null,
+      "shareCost": null,
+      "hobby": [],
+      "hobbySameExpection": null,
+      "wantCommunicate": null,
+      "smoke": null,
+      "drink": null,
+      "snore": null,
+      "sleepQuality": null
+    },
+    {
+      "id": "8bb6",
+      "questionnaireId": null,
+      "studentId": "2204020226",
+      "name": "闫佳安",
+      "sex": "男",
+      "major": "网络工程",
+      "age": "20",
+      "home": [
+        "黑龙江省",
+        "哈尔滨市"
+      ],
+      "ethnic": "汉族",
+      "sleepTime": "0",
+      "getupTime": "0",
+      "learnInDorm": "1",
+      "neatExpection": "0",
+      "cleanPeriod": "1",
+      "bathePeriod": "1",
+      "expense": "1",
+      "costType": [
+        "吃饭，买零食",
+        "娱乐活动"
+      ],
+      "outCost": "1",
+      "shareCost": "1",
+      "hobby": [
+        "运动",
+        "网上冲浪"
+      ],
+      "hobbySameExpection": "1",
+      "wantCommunicate": "1",
+      "smoke": "0",
+      "drink": "0",
+      "snore": "0",
+      "sleepQuality": "0"
+    }
+  ]
+}

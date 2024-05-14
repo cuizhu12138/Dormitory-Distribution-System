@@ -2,7 +2,7 @@
   <div class="main-content">
     <el-card style="width: 50%; margin: 30px auto">
       <div style="text-align: right; margin-bottom: 20px">
-        <el-button type="primary" @click="updatePassword">修改密码</el-button>
+        <el-button type="primary" @click="updatePassword">Change password</el-button>
       </div>
       <el-form :model="user" label-width="80px" style="padding-right: 20px">
         <div style="margin: 15px; text-align: center">
@@ -16,20 +16,24 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
+        <el-form-item label="Userid" prop="username">
+          <el-input v-model="user.username" placeholder="Userid" disabled></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="user.name" placeholder="姓名"></el-input>
+        <el-form-item label="Username" prop="name">
+          <el-input v-model="user.name" placeholder="Username"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="phone">
-          <el-input v-model="user.phone" placeholder="电话"></el-input>
+        <el-form-item label="Phone" prop="phone">
+          <el-input v-model="user.phone" placeholder="Phone"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="user.email" placeholder="邮箱"></el-input>
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="user.email" placeholder="Email"></el-input>
         </el-form-item>
+        <el-form-item label="DormId" prop="dormitory" disabled>
+          <el-input v-model="user.dormitory" placeholder="DormId"></el-input>
+        </el-form-item>
+
         <div style="text-align: center; margin-bottom: 20px">
-          <el-button type="primary" @click="update">保 存</el-button>
+          <el-button type="primary" @click="update">Save</el-button>
         </div>
       </el-form>
     </el-card>

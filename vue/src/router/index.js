@@ -29,6 +29,9 @@ const routes = [
       { path: 'home', name: 'Home', meta: { name: '系统首页' }, component: () => import('../views/HomeView.vue') },
       { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/Front/Person') },
       { path: 'question', name: 'Question', meta: { name: '调查问卷' }, component: () => import('../views/Front/Questionnaire.vue') },
+      { path: 'result', name: 'Result', meta: { name: '分配结果' }, component: () => import('../views/Front/result.vue') },
+      { path: 'feedback', name: 'Feedback', meta: { name: '问题反馈' }, component: () => import('../views/Front/Feedback.vue') },
+      { path: 'test', name: 'Test', meta: { name: '测试页面' }, component: () => import('../views/Front/test.vue') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/LoginView.vue') },
