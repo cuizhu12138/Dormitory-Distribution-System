@@ -69,7 +69,7 @@ export default {
   name: "FPages",
   data() {
     return {
-      tableData: [1,2],  // 所有的数据
+      tableData:[],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 4,  // 每页显示的个数
       total: 0,

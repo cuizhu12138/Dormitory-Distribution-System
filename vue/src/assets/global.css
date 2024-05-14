@@ -1,10 +1,22 @@
 body{
     margin:0;
     padding:0;
-
 }
 /*把所有元素变成盒装模型*/
 *{
     /*外边距不会额外占用1px的像素*/
     box-sizing:border-box;
+}
+
+@font-face {
+    font-family: "Times-New-Roman";
+    src: url('./Times New Roman.ttf');
+}
+
+body {
+    font-family: 'Times-New-Roman', sans-serif; /* 您的字体名称 */
+    font-size: 50px;
+}
+.el-container {
+    font-size: 20px;
 }

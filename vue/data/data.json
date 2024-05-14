@@ -1,0 +1,33 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json测试",
+      "body": "json测试",
+      "author": "苏苏"
+    },
+    {
+      "id": 2,
+      "title": "json测试",
+      "body": "json测试",
+      "author": "小翎儿"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "name": "测试json",
+      "email": "test@test.com",
+      "body": "测试json"
+    },
+    {
+      "id": 2,
+      "name": "测试json",
+      "email": "test@test.com",
+      "body": "测试json"
+    }
+  ],
+  "profile": {
+    "name": "测试json"
+  }
+}
