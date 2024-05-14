@@ -4,12 +4,11 @@ from copy import deepcopy
 from math import *
 import sqlite3
 
-
-
-dbpath='data.db'
+dbpath='example.db'
 roomMaxNum=0
 sidlist=[]#待分寝的学生的学号列表
 preSat={}
+
 class StudentData(dict):
     def __init__(self,sid):#获取问卷信息,权重
         super().__init__()
@@ -148,19 +147,31 @@ def getStuData_db():
     stuDataDict={}
     with sqlite3.connect(dbpath) as db:
         cur=db.cursor()
-        cur.execute("select UID,ans from ansinfo")
-        for uid,strans in cur:
+        cur.execute("select * from UserHabbit")
+        for uid,*anslist in cur:
             sidlist.append(uid)
             stu=StudentData(uid)
-            stuDataDict[uid]=StudentData(uid)
-            stu.strInit(strans)
+            stuDataDict[uid]=stu
+            strans=[]
+            for i,ans in enumerate(anslist):
+                strans.append(f'{i}:{ans}')
+            stu.strInit(';'.join(strans))
+def writeAllocation(li:list[tuple]):
+    with sqlite3.connect(dbpath) as db:
+        cur=db.cursor()
+        for (uid,roomid) in li:
+            cur.execute(f"update DistributionResult set RoomNumber={roomid} where UID={uid}")
 if __name__=='__main__':
-    getStuData_test()#getStuData_db()
+    #getStuData_test()#getStuData_db()
+    getStuData_db()
     ps=Poolsys(pi=0.5)
     ps.add(num=5,cls=Allocation,size=100,pc=0.9,pm=0.1,ps=10/100,select=Selection(0))
     # ps.decode()
     ps0=ps.copy()
     ps.run(50,end_bound=100)
-    ps.show()#outStuData
-    print(ps.decode())
+    #ps.show()#outStuData
+    ans=ps.decode()
+    print(ans)
+    writeAllocation(ans)
+    
     # ps.decode()

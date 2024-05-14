@@ -32,3 +32,4 @@ pnpm-debug.log*
 
 # Python
 __pycache__
+__test*.py
