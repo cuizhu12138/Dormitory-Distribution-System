@@ -1,5 +1,7 @@
-package controller
 
+// +build ignore
+// 此文件将被忽略编译
+package controller
 import (
 	"Dormitory-Distribution-System/midware"
 

@@ -478,7 +478,7 @@ export default {
     }
   },
   created() {
-    axios.get("http://localhost:3000/questionnaireInfo").then(res=>{
+    axios.get("http://localhost:8080/questionnaireInfo").then(res=>{
       this.tableData=res.data;
     })
   },
@@ -488,7 +488,7 @@ export default {
     },
     checkQuesionnaire(qid){
       this.checkDialogVisble=true
-      axios.get("http://localhost:3000/questionnaire").then(res=>{
+      axios.get("http://localhost:8080/questionnaire").then(res=>{
         let tmpform={};
         for(let i=0;i<res.data.length;i++)
         {
@@ -509,7 +509,7 @@ export default {
       });
     },
     updateQuetionnaire(){
-      axios.post(`http://localhost:3000/${this.pos}`,this.form).then(res=>{
+      axios.post(`http://localhost:8080/${this.pos}`,this.form).then(res=>{
         console.log(res)
       })
       this.dialogVisble=false
