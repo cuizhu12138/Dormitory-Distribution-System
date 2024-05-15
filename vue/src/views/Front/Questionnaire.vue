@@ -12,8 +12,10 @@
         <el-table-column fixed="right" label="option" width="150">
           <template slot-scope="scope">
             <el-row>
-              <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
-              <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" >Fill in</el-button>
+              <div style="display: flex; align-items: center;">
+                  <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" plain style="margin-right: 10px;">Fill in</el-button>
+                  <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
+              </div>
             </el-row>
           </template>
         </el-table-column>
@@ -478,7 +480,7 @@ export default {
     }
   },
   created() {
-    axios.get("http://localhost:3000/questionnaireInfo").then(res=>{
+    axios.get("http://localhost:8080/questionnaireInfo").then(res=>{
       this.tableData=res.data;
     })
   },
@@ -488,7 +490,7 @@ export default {
     },
     checkQuesionnaire(qid){
       this.checkDialogVisble=true
-      axios.get("http://localhost:3000/questionnaire").then(res=>{
+      axios.get("http://localhost:8080/questionnaire").then(res=>{
         let tmpform={};
         for(let i=0;i<res.data.length;i++)
         {
@@ -509,7 +511,7 @@ export default {
       });
     },
     updateQuetionnaire(){
-      axios.post(`http://localhost:3000/${this.pos}`,this.form).then(res=>{
+      axios.post(`http://localhost:8080/${this.pos}`,this.form).then(res=>{
         console.log(res)
       })
       this.dialogVisble=false
