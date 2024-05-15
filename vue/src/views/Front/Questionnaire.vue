@@ -12,8 +12,10 @@
         <el-table-column fixed="right" label="option" width="150">
           <template slot-scope="scope">
             <el-row>
-              <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
-              <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" >Fill in</el-button>
+              <div style="display: flex; align-items: center;">
+                  <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" plain style="margin-right: 10px;">Fill in</el-button>
+                  <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
+              </div>
             </el-row>
           </template>
         </el-table-column>
