@@ -592,7 +592,6 @@ export default {
       this.$refs[form].validate((valid) => {
         if (valid)
         {
-          //后端测试专用
           // axios.post(`http://localhost:3000/${this.pos}`,this.form).then(res=> {
           //   console.log(res)
           // })

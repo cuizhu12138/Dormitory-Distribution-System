@@ -1,5 +1,5 @@
-package controller
 
+package controller
 import (
 	"Dormitory-Distribution-System/midware"
 
