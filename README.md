@@ -61,4 +61,14 @@ json-server db.json
 ### python 运行：
 python 文件夹下运行
 `python Allocation.py --dbpath "数据库路径"`
+`python3 Allocation.py --dbpath /Users/hao/Desktop/go/Dormitory-Distribution-System/gorm.db`
 
+### drop
+drop table user_questionnaire_data;
+drop table user_base_infos;
+
+### select
+select * from user_questionnaire_data;
+select * from user_base_infos;
+
+PRAGMA table_info(user_base_infos);
