@@ -149,7 +149,7 @@ class Poolsys:#多种群管理
                 break#最大值保持end_bound轮
         totalTime=time.time()-t_start
         print(f'totalTime={totalTime} avgTime={totalTime/round_num}')
-    def show(self,show_screen=True,outpath=None):
+    def show(self,show_screen=True,outpath=None,title=''):
         plt.figure(figsize=(16,7),dpi=100)
         #plt.plot(self.axis_x,self.elite_max,c='r',label='best')
         for i,p in enumerate(self.pools):
@@ -162,6 +162,7 @@ class Poolsys:#多种群管理
             plt.plot(self.axis_x,p.axis_y_max,**kwarg)
             plt.text(self.axis_x[-1],p.axis_y_max[-1],f'{i}',c=color)
         plt.legend(loc='best')
+        plt.title(title)
         if show_screen:
             plt.show()
         if outpath:
