@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -67,8 +67,8 @@ type QuestionnaireDataAF struct {
     ChattingSharinsThoushts     string     	   `gorm:"column:chattingSharinsThoushts"`
     Leanliness         			string     	   `gorm:"column:leanliness"`
     Cleaningfrsgueney       	string         `gorm:"column:cleaningfrsgueney"`
-    Showerkrequency       		string         `gorm:"column:showerkrequency"`
-    MonthlyBudset   			string         `gorm:"column:monthlyBudset"`
+    ShowerFrequency       		string         `gorm:"column:showerkrequency"`
+    MonthlyBudget   			string         `gorm:"column:monthlyBudset"`
     JointOutings       			string         `gorm:"column:jointOutings"`
     SharedExpenses      	    string         `gorm:"column:sharedExpenses"`
     SharedInterests             string         `gorm:"column:sharedInterests"`
@@ -110,9 +110,8 @@ func InitRouter(r *gin.Engine) {
 			c.JSON(400, gin.H{"error": "Failed to parse JSON"})
 			return
 		}
-		c.JSON(200, gin.H{"message": "Data received"})
-		dsn := "root:11111111@(localhost)/Questionnaire_data?charset=utf8mb4&parseTime=True&loc=Local"
-		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		dsn := "gorm.db"
+		db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 		if err!= nil{
 			panic(err)
 		}
@@ -121,7 +120,11 @@ func InitRouter(r *gin.Engine) {
 		data.Age = requestData.Age
 		data.Name = requestData.Name
 		data.Major = requestData.Major
-		data.Sex = requestData.Sex
+		if requestData.Sex == "男" {
+			data.Sex = "1"
+		}else{
+			data.Sex = "0"
+		}
 		data.Homestr = strings.Join(requestData.Home , ",")
 		data.BedTime = 		requestData.SleepTime.(string)
 		data.WakeUpTime = 	requestData.GetupTime.(string)
@@ -133,8 +136,8 @@ func InitRouter(r *gin.Engine) {
 		data.ChattingSharinsThoushts = requestData.WantCommunicate.(string)
 		data.Leanliness = requestData.NeatExpection.(string)
 		data.Cleaningfrsgueney = requestData.CleanPeriod.(string)
-		data.Showerkrequency = requestData.BathePeriod.(string)
-		data.MonthlyBudset = requestData.Expense.(string)
+		data.ShowerFrequency = requestData.BathePeriod.(string)
+		data.MonthlyBudget = requestData.Expense.(string)
 		data.JointOutings = requestData.OutCost.(string)
 		data.SharedExpenses = requestData.ShareCost.(string)
 		data.SharedInterests =  requestData.HobbySameExpection.(string)
