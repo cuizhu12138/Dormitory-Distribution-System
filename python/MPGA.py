@@ -149,11 +149,11 @@ class Poolsys:#多种群管理
                 break#最大值保持end_bound轮
         totalTime=time.time()-t_start
         print(f'totalTime={totalTime} avgTime={totalTime/round_num}')
-    def show(self):
+    def show(self,show_screen=True,outpath=None):
         plt.figure(figsize=(16,7),dpi=100)
         #plt.plot(self.axis_x,self.elite_max,c='r',label='best')
         for i,p in enumerate(self.pools):
-            color,label=(rd.random(),rd.random(),rd.random()),f'pool_{i}'
+            color,label=(rd.random(),rd.random(),rd.random()),f'population_{i}'
             kwarg=copy.deepcopy(p.pattern)
             if 'c' not in kwarg:
                 kwarg['c']=color
@@ -162,7 +162,10 @@ class Poolsys:#多种群管理
             plt.plot(self.axis_x,p.axis_y_max,**kwarg)
             plt.text(self.axis_x[-1],p.axis_y_max[-1],f'{i}',c=color)
         plt.legend(loc='best')
-        plt.show()
+        if show_screen:
+            plt.show()
+        if outpath:
+            plt.savefig(outpath)
     def draw(self,c,label='None'):#绘制所有曲线,同色
         plt.plot(self.axis_x,self.elite_max,c=c,label=label)
         for i,p in enumerate(self.pools):
