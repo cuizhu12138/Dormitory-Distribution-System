@@ -4,10 +4,10 @@ import "time"
 
 // 登录表
 type Login struct {
-	UID          int64  `gorm:"column:UID;             type:INT PRIMARY KEY AUTO_INCREMENT;"`
+	UID          int64  `gorm:"column:UID;             type:INT PRIMARY KEY; autoIncrement"`
 	Authority    int64  `gorm:"column:Authority;       type:INT"`
 	SchoolNumber string `gorm:"column:SchoolNumber;    type:NVARCHAR"`
-	Password     string `gorm:"column:PassWord;        type:NVARCHAR NOT NULL"`
+	PassWord     string `gorm:"column:PassWord;        type:NVARCHAR NOT NULL"`
 }
 
 func (Login) TableName() string {
@@ -16,7 +16,7 @@ func (Login) TableName() string {
 
 // 用户基本信息表
 type UserInfo struct {
-	UID      int64  `gorm:"column:UID;            	  type:INT PRIMARY KEY AUTO_INCREMENT;"`
+	UID      int64  `gorm:"column:UID;            	  type:INT PRIMARY KEY; autoIncrement"`
 	UserName string `gorm:"column:UserName;       	  type:NVARCHAR"`
 	Gender   string `gorm:"column:Gender;          	  type:NVARCHAR"`
 	Age      int64  `gorm:"column:Age;       	  	  type:INT"`
@@ -31,7 +31,7 @@ func (UserInfo) TableName() string {
 
 // 用户习惯表
 type UserHabbit struct {
-	UID                     int64  `gorm:"column:UID;            	  		type:INT PRIMARY KEY AUTO_INCREMENT;"`
+	UID                     int64  `gorm:"column:UID;            	  		type:INT PRIMARY KEY;autoIncrement"`
 	BedTime                 string `gorm:"column:BedTime;           		type:VARCHAR"`
 	WakeUpTime              string `gorm:"column:WakeUpTime;           		type:VARCHAR"`
 	SleepQuality            string `gorm:"column:SleepQuality;           	type:VARCHAR"`
@@ -76,6 +76,16 @@ type InformationFeedback struct {
 	UID             int64     `gorm:"column:UID;       						type:INT"`
 	FeedbackContent string    `gorm:"column:FeedbackContent;          		type:NVARCHAR"`
 	TimeStamp       time.Time `gorm:"column:TimeStamp;          			type:TIMESTAMP"`
+}
+type UserFeedback struct {
+	ID              uint   `gorm:"primaryKey;autoIncrement"`
+	UserID          int64  `gorm:"not null"`
+	FeedbackContent string `gorm:"type:TEXT"`
+	Timestamp       time.Time
+}
+
+func (UserFeedback) TableName() string {
+	return "UserFeedback"
 }
 
 func (InformationFeedback) TableName() string {

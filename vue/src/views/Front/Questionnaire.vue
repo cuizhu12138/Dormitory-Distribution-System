@@ -13,9 +13,9 @@
           <template slot-scope="scope">
             <el-row>
               <div style="display: flex; align-items: center;">
-                  <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" plain style="margin-right: 10px;">Fill in</el-button>
+                  <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" plain style="margin-right: px;">Fill in</el-button>
                   <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
-              </div>
+              </div> 
             </el-row>
           </template>
         </el-table-column>
