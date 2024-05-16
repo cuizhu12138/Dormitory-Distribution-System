@@ -2,9 +2,13 @@ package main
 
 import (
 	"Dormitory-Distribution-System/controller"
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type QuestionnaireInfo struct {
@@ -45,8 +49,33 @@ type QuestionnaireData struct {
 	Snore            interface{} `json:"snore"`
 	SleepQuality     interface{} `json:"sleepQuality"`
 }
+type QuestionnaireDataAF struct {
+    UID 						uint 		   `gorm:"primaryKey;autoIncrement"`
+	Name             			string         `gorm:"name"`
+	Sex             			string         `gorm:"sex"`
+	Major            			string         `gorm:"major"`
+	Age              			string         `gorm:"age"`
+	Homestr            			string         `gorm:"home"`
+	Ethnic           			string         `gorm:"ethnic"`
+    BedTime   		  			string         `gorm:"column:bedTime"`
+    WakeUpTime        			string         `gorm:"column:wakeUpTime"`
+    SleepQuality     			string         `gorm:"column:sleepQuality"`
+    DomStudy             		string         `gorm:"column:domStudy"`
+    Smoke               		string         `gorm:"column:smoke"`
+    Drink              			string         `gorm:"column:drink"`
+    Snore            			string         `gorm:"column:snore"`
+    ChattingSharinsThoushts     string     	   `gorm:"column:chattingSharinsThoushts"`
+    Leanliness         			string     	   `gorm:"column:leanliness"`
+    Cleaningfrsgueney       	string         `gorm:"column:cleaningfrsgueney"`
+    Showerkrequency       		string         `gorm:"column:showerkrequency"`
+    MonthlyBudset   			string         `gorm:"column:monthlyBudset"`
+    JointOutings       			string         `gorm:"column:jointOutings"`
+    SharedExpenses      	    string         `gorm:"column:sharedExpenses"`
+    SharedInterests             string         `gorm:"column:sharedInterests"`
+}
 
 func InitRouter(r *gin.Engine) {
+	
 	g1 := r.Group("/user")
 	{
 		g1.POST("/login/", controller.Login)
@@ -64,12 +93,7 @@ func InitRouter(r *gin.Engine) {
 	})
 	r.GET("/questionnaireInfo", func(c *gin.Context) {
         questionnaireInfo := []QuestionnaireInfo{
-            {0, "2021 Freshman First Questionnaire", "Disabled", 235, "3173"},
-            {1, "2022 Freshman First Questionnaire", "Disabled", 235, "ac1e"},
-            {2, "2022 Freshman First Questionnaire", "Submitted", 1, "6fdc"},
-            {3, "2023 Freshman Second Questionnaire", "Enabled", 0, "0daa"},
-			{4, "2023 Freshman Second Questionnaire", "Enabled", 0, "0dasaa"},
-			{5, "2023 Freshman Second Questionnaire", "Enabled", 0, "0daaas"},
+			{0, "2023 Freshman Second Questionnaire", "Enabled", 0, "0daaas"},
         }
         c.JSON(http.StatusOK, questionnaireInfo)
     })
@@ -87,6 +111,37 @@ func InitRouter(r *gin.Engine) {
 			return
 		}
 		c.JSON(200, gin.H{"message": "Data received"})
-		fmt.Printf("%+v\n", requestData)
+		dsn := "root:11111111@(localhost)/Questionnaire_data?charset=utf8mb4&parseTime=True&loc=Local"
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		if err!= nil{
+			panic(err)
+		}
+		db.AutoMigrate(&QuestionnaireDataAF{})
+		var data QuestionnaireDataAF
+		data.Age = requestData.Age
+		data.Name = requestData.Name
+		data.Major = requestData.Major
+		data.Sex = requestData.Sex
+		data.Homestr = strings.Join(requestData.Home , ",")
+		data.BedTime = 		requestData.SleepTime.(string)
+		data.WakeUpTime = 	requestData.GetupTime.(string)
+		data.SleepQuality =	requestData.SleepQuality.(string)
+		data.DomStudy = 	requestData.LearnInDorm.(string)
+		data.Smoke = 		requestData.Smoke.(string)
+		data.Drink = 		requestData.Drink.(string)
+		data.Snore =		requestData.Snore.(string)
+		data.ChattingSharinsThoushts = requestData.WantCommunicate.(string)
+		data.Leanliness = requestData.NeatExpection.(string)
+		data.Cleaningfrsgueney = requestData.CleanPeriod.(string)
+		data.Showerkrequency = requestData.BathePeriod.(string)
+		data.MonthlyBudset = requestData.Expense.(string)
+		data.JointOutings = requestData.OutCost.(string)
+		data.SharedExpenses = requestData.ShareCost.(string)
+		data.SharedInterests =  requestData.HobbySameExpection.(string)
+		db.Create(&data)
+		db.Debug().Create(&data) 
+		var u = new(QuestionnaireDataAF)
+		db.First(u)
+		fmt.Printf("%#v\n", u)
 	})
 }
