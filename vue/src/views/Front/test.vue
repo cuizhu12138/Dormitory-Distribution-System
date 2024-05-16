@@ -10,10 +10,9 @@
         <el-table-column prop="title" label="问卷名称" ></el-table-column>
         <el-table-column prop="state" label="问卷状态" ></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
-          <template slot-scope="scope">
+          <template >//slot-scope="scope"
             <el-row>
-              <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">查看</el-button>
-              <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='不可填写'" >填写</el-button>
+              <el-button type="primary" @click="checkQuesionnaire">查看问卷</el-button>
             </el-row>
           </template>
         </el-table-column>
