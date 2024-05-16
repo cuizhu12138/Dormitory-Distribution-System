@@ -25,43 +25,44 @@
     <div>
       <!--      问卷填写弹窗-->
       <el-dialog title="问卷填写" :visible.sync="dialogVisble" width="50%" >
-        <el-form :model="form">
+        <el-form :model="form" :rules="rules" ref="form">
 
-          <el-form-item label="学号" :label-width="formLabelWidth">
+          <el-form-item label="学号" prop="studentId" :label-width="formLabelWidth">
             <el-input v-model="form.studentId" autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="姓名" :label-width="formLabelWidth">
+          <el-form-item label="姓名" prop="name" :label-width="formLabelWidth">
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="性别" :label-width="formLabelWidth">
+          <el-form-item label="性别" prop="sex" :label-width="formLabelWidth">
             <el-select v-model="form.sex" placeholder="请选择性别">
               <el-option label="男" value="男"></el-option>
               <el-option label="女" value="女"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="专业" :label-width="formLabelWidth">
+          <el-form-item label="专业" prop="major" :label-width="formLabelWidth">
             <el-input v-model="form.major" autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="年龄" :label-width="formLabelWidth">
+          <el-form-item label="年龄" prop="age" :label-width="formLabelWidth">
             <el-input v-model="form.age" autocomplete="off"></el-input>
           </el-form-item>
 
-          <span>籍贯</span><br>
-          <el-cascader
-              size="large"
-              :options="pcTextArr"
-              v-model="form.home" placeholder="请选择地区">
-          </el-cascader>
+          <el-form-item label="请选择籍贯" prop="home">
+            <el-cascader
+                size="large"
+                :options="pcTextArr"
+                v-model="form.home" placeholder="请选择地区">
+            </el-cascader>
+          </el-form-item>
 
 
-          <el-form-item label="民族" :label-width="formLabelWidth">
+          <el-form-item label="民族" prop="ethnic" :label-width="formLabelWidth">
             <el-input v-model="form.ethnic" autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="睡觉时间" :label-width="formLabelWidth">
+          <el-form-item label="睡觉时间" prop="sleepTime" :label-width="formLabelWidth">
             <el-select v-model="form.sleepTime" placeholder="请选择时间">
               <el-option label="22:30-23:30" value=0></el-option>
               <el-option label="23:30-00:30" value=1></el-option>
@@ -70,7 +71,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="起床时间" :label-width="formLabelWidth">
+          <el-form-item label="起床时间" prop="getupTime" :label-width="formLabelWidth">
             <el-select v-model="form.getupTime" placeholder="请选择时间">
               <el-option label="7:00之前" value=0></el-option>
               <el-option label="7:00-8:30" value=1></el-option>
@@ -79,21 +80,21 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否希望作息时间同步">
+          <el-form-item label="是否希望作息时间同步" prop="sameRoutine">
             <el-select v-model="form.sameRoutine">
-              <el-option label="是"></el-option>
-              <el-option label="否"></el-option>
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="学习是否更偏向在寝室">
+          <el-form-item label="学习是否更偏向在寝室" prop="learnInDorm">
             <el-select v-model="form.learnInDorm">
               <el-option label="是" value=0></el-option>
               <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="对寝室的整洁程度要求和期望">
+          <el-form-item label="对寝室的整洁程度要求和期望" prop="neatExpection">
             <el-select v-model="form.neatExpection">
               <el-option label="有洁癖，需要寝室保持高整洁度" value=0></el-option>
               <el-option label="间歇式洁癖，有的时候特别整洁" value=1></el-option>
@@ -102,8 +103,8 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="打扫寝室周期">
-            <el-select v-model="form.cleanPeriod">
+          <el-form-item label="打扫寝室周期" prop="cleanPeriod">
+            <el-select v-model="form.cleanPeriod" >
               <el-option label="每天" value=0></el-option>
               <el-option label="一周两-三次" value=1></el-option>
               <el-option label="一周一次" value=2></el-option>
@@ -112,7 +113,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="洗澡周期">
+          <el-form-item label="洗澡周期" prop="bathePeriod">
             <el-select v-model="form.bathePeriod">
               <el-option label="每天" value=0></el-option>
               <el-option label="一周两-三次" value=1></el-option>
@@ -121,7 +122,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="月生活费大概多少">
+          <el-form-item label="月生活费大概多少" prop="expense">
             <el-select v-model="form.expense">
               <el-option label="0k-1.5k" value=0></el-option>
               <el-option label="1.5k-2.5k" value=1></el-option>
@@ -130,7 +131,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="花销主体">
+          <el-form-item label="花销主体" prop="costType">
             <el-checkbox-group v-model="form.costType">
               <el-checkbox label="吃饭，买零食" name=0></el-checkbox>
               <el-checkbox label="娱乐活动" name=1></el-checkbox>
@@ -139,7 +140,7 @@
             </el-checkbox-group>
           </el-form-item>
 
-          <el-form-item label="是否愿意与室友一起外出消费">
+          <el-form-item label="是否愿意与室友一起外出消费" prop="outCost">
             <el-select v-model="form.outCost">
               <el-option label="经常" value=0></el-option>
               <el-option label="偶尔" value=1></el-option>
@@ -147,7 +148,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否会愿意室友一起共享消费">
+          <el-form-item label="是否会愿意室友一起共享消费" prop="shareCost">
             <el-select v-model="form.shareCost">
               <el-option label="经常" value=0></el-option>
               <el-option label="偶尔" value=1></el-option>
@@ -155,7 +156,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="兴趣爱好 ">
+          <el-form-item label="兴趣爱好" prop="hobby">
             <el-checkbox-group v-model="form.hobby">
               <el-checkbox label="运动" name=0></el-checkbox>
               <el-checkbox label="网上冲浪" name=1></el-checkbox>
@@ -165,7 +166,7 @@
             </el-checkbox-group>
           </el-form-item>
 
-          <el-form-item label="是否期望与室友爱好相同">
+          <el-form-item label="是否期望与室友爱好相同" prop="hobbySameExpection">
             <el-select v-model="form.hobbySameExpection">
               <el-option label="非常希望" value=0></el-option>
               <el-option label="最好可以" value=1></el-option>
@@ -173,7 +174,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否会与室友聊天或交流心事">
+          <el-form-item label="是否会与室友聊天或交流心事" prop="wantCommunicate">
             <el-select v-model="form.wantCommunicate">
               <el-option label="经常会" value=0></el-option>
               <el-option label="偶尔会" value=1></el-option>
@@ -181,28 +182,28 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否抽烟">
+          <el-form-item label="是否抽烟" prop="smoke">
             <el-select v-model="form.smoke">
               <el-option label="是" value=0></el-option>
               <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否喝酒">
+          <el-form-item label="是否喝酒" prop="drink">
             <el-select v-model="form.drink">
               <el-option label="是" value=0></el-option>
               <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="是否打呼噜">
+          <el-form-item label="是否打呼噜" prop="snore">
             <el-select v-model="form.snore">
               <el-option label="是" value=0></el-option>
               <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="睡眠质量">
+          <el-form-item label="睡眠质量" prop="sleepQuality">
             <el-select v-model="form.sleepQuality">
               <el-option label="好" value=0></el-option>
               <el-option label="一般" value=1></el-option>
@@ -215,7 +216,7 @@
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogVisble = false">取 消</el-button>
           <el-button type="primary" @click="saveQuetionnaire">保存</el-button>
-          <el-button type="success" @click="updateQuetionnaire">提交</el-button>
+          <el-button type="success" @click="updateQuetionnaire('form')">提交</el-button>
         </div>
       </el-dialog>
 
@@ -277,8 +278,8 @@
 
           <el-form-item label="是否希望作息时间同步">
             <el-select v-model="checkform.sameRoutine">
-              <el-option label="是"></el-option>
-              <el-option label="否"></el-option>
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
@@ -457,26 +458,103 @@ export default {
         age:'',
         home:[],
         ethnic:'',
-        sleepTime:null,
-        getupTime:null,
-        sameRoutine:null,
-        learnInDorm:null,
-        neatExpection:null,
-        cleanPeriod:null,
-        bathePeriod:null,
-        expense:null,
+        sleepTime:'',
+        getupTime:'',
+        sameRoutine:'',
+        learnInDorm:'',
+        neatExpection:'',
+        cleanPeriod:'',
+        bathePeriod:'',
+        expense:'',
         costType:[],
-        outCost:null,
-        shareCost:null,
+        outCost:'',
+        shareCost:'',
         hobby:[],
-        hobbySameExpection:null,
-        wantCommunicate:null,
-        smoke:null,
-        drink:null,
-        snore:null,
-        sleepQuality:null
+        hobbySameExpection:'',
+        wantCommunicate:'',
+        smoke:'',
+        drink:'',
+        snore:'',
+        sleepQuality:''
       },
-      tableData: []
+      tableData: [],
+      rules: {
+        studentId: [
+          { required: true, message: '请输入学号', trigger: 'blur' },
+        ],
+        name: [
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+        ],
+        sex: [
+          { type: 'date', required: true, message: '请选择性别', trigger: 'change' }
+        ],
+        major: [
+          { required: true, message: '请输入专业', trigger: 'blur' },
+        ],
+        age: [
+          { required: true, message: '请输入年龄', trigger: 'blur' },
+        ],
+        home: [
+          { type: 'array', required: true, message: '请选择籍贯', trigger: 'change' }
+        ],
+        ethnic: [
+          { required: true, message: '请输入民族', trigger: 'blur' },
+        ],
+        sleepTime: [
+          { type: 'date', required: true, message: '请选择睡觉时间', trigger: 'change' }
+        ],
+        getupTime: [
+          { type: 'date', required: true, message: '请选择起床时间', trigger: 'change' }
+        ],
+        sameRoutine: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        learnInDorm: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        neatExpection: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        cleanPeriod: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        bathePeriod: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        expense: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        costType: [
+          { type: 'array', required: true, message: '请至少选择一个花销主体', trigger: 'change' }
+        ],
+        outCost: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        shareCost: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        hobby: [
+          { type: 'array', required: true, message: '请至少选择一个兴趣爱好', trigger: 'change' }
+        ],
+        hobbySameExpection: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        wantCommunicate: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        smoke: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        drink: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        snore: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+        sleepQuality: [
+          { type: 'date', required: true, message: '请填写该项！', trigger: 'change' }
+        ],
+      }
     }
   },
   created() {
@@ -510,19 +588,27 @@ export default {
         type: 'success'
       });
     },
-    updateQuetionnaire(){
-      axios.post(`http://localhost:3000/${this.pos}`,this.form).then(res=>{
-        console.log(res)
+    updateQuetionnaire(form){
+      this.$refs[form].validate((valid) => {
+        if (valid)
+        {
+          // axios.post(`http://localhost:3000/${this.pos}`,this.form).then(res=> {
+          //   console.log(res)
+          // })
+          this.dialogVisble=false
+          this.$message({
+            message: '恭喜你，提交成功',
+            type: 'success'
+          });
+        }
+        else
+        {
+          this.$message.error('填写错误，请重新填写^-^');
+          return false;
+        }
       })
-      this.dialogVisble=false
-      this.$message({
-        message: '恭喜你，提交成功',
-        type: 'success'
-      });
     },
   }
-
-
 
 }
 </script>
