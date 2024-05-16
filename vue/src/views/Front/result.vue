@@ -232,11 +232,11 @@ export default {
       form:{
           id: "8bb6",
           questionnaireId: null,
-          studentId: "2204020226",
-          name: "闫佳安",
+          studentId: "2104020410",
+          name: "林浩",
           sex: "男",
           major: "网络工程",
-          age: "20",
+          age: "21",
           home: [
             "黑龙江省",
             "哈尔滨市"

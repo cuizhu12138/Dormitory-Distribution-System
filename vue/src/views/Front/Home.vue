@@ -2,7 +2,8 @@
   <div>
   <el-container>
     <el-header style="background-color:#687178">
-      <img src="../../assets/hrbust.jpg" style="width:45px;postion:relative;top:10px">
+      <img src="../../assets/hrbust.jpg" style="width:40px; position:relative; top:15px">
+
         <span style="font-size:20px;margin-left:15px;color:white">Dormitory-Smart-Matching-System</span>
         <el-button type="primary" @click="loginOut" plain style="margin-left: 20px; border: 1px solid #fff; padding: 8px 10px;">Exit</el-button>
     </el-header>

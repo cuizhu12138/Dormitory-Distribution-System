@@ -2,7 +2,6 @@ package main
 
 import (
 	"Dormitory-Distribution-System/controller"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -54,7 +53,7 @@ type QuestionnaireData struct {
 	SleepQuality       interface{} `json:"sleepQuality"`
 }
 type UserBaseInfo struct {
-	UID     uint   `gorm:"column:primaryKey;autoIncrement"`
+	UID     uint   `gorm:"column:uid;primaryKey;autoIncrement"`
 	Name    string `gorm:"column:name"`
 	Sex     string `gorm:"column:sex"`
 	Major   string `gorm:"column:major"`
@@ -109,12 +108,11 @@ func InitRouter(r *gin.Engine) {
 
 	r.GET("/results", func(c *gin.Context) {
 		results := []Results{
-			{"Cindy"},
-			{"Bob"},
-			{"Alice"},
-			{"Kadi"},
-			{"Watt"},
-			{"Tom"},
+			{"林浩"},
+			{"冯国强"},
+			{"陈国华"},
+			{"吴国强"},
+			{"李玉英"},
 		}
 		c.JSON(http.StatusOK, results)
 	})
@@ -155,10 +153,11 @@ func InitRouter(r *gin.Engine) {
 		db.Create(&data2)
 		var uu = new(UserBaseInfo)
 		db.First(uu)
-		fmt.Printf("%#v\n", uu)
+		// fmt.Printf("%#v\n", uu)
 
 		db.AutoMigrate(&UserQuestionnaireData{})
 		var data UserQuestionnaireData
+
 		data.UID = data2.UID
 		data.BedTime = requestData.SleepTime.(string)
 		data.WakeUpTime = requestData.GetupTime.(string)
@@ -175,12 +174,12 @@ func InitRouter(r *gin.Engine) {
 		data.JointOutings = requestData.OutCost.(string)
 		data.SharedExpenses = requestData.ShareCost.(string)
 		data.SharedInterests = requestData.HobbySameExpection.(string)
+
 		db.Create(&data)
-		db.Commit()
-		fmt.Println("新创建记录的自增主键值为:", data.UID)
-		var u = new(UserQuestionnaireData)
-		db.Last(u)
-		fmt.Printf("%#v\n", u)
+		// db.Commit()
+		// var u = new(UserQuestionnaireData)
+		// db.Last(u)
+		// fmt.Printf("%#v\n", u)
 
 	})
 }
