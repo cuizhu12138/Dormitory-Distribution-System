@@ -11,6 +11,10 @@ import (
 	"gorm.io/gorm"
 )
 
+type Results struct {
+	Name string `json:"name"`
+}
+
 type QuestionnaireInfo struct {
 	QID    int    `json:"qid"`
 	Title  string `json:"title"`
@@ -50,16 +54,18 @@ type QuestionnaireData struct {
 	SleepQuality       interface{} `json:"sleepQuality"`
 }
 type UserBaseInfo struct {
-	UID     uint   `gorm:"primaryKey;autoIncrement"`
-	Name    string `gorm:"name"`
-	Sex     string `gorm:"sex"`
-	Major   string `gorm:"major"`
-	Age     string `gorm:"age"`
-	Homestr string `gorm:"home"`
+	UID     uint   `gorm:"column:primaryKey;autoIncrement"`
+	Name    string `gorm:"column:name"`
+	Sex     string `gorm:"column:sex"`
+	Major   string `gorm:"column:major"`
+	Age     string `gorm:"column:age"`
+	Homestr string `gorm:"column:home"`
+	SychronizedSchedule string `gorm:"column:sychronizedSchedule"`
+	SpendingResponsibility string `gorm:"column:spendingResponsibility"`
+	Interests string `gorm:"column:interests"`
 }
 type UserQuestionnaireData struct {
-	UID                     uint   `gorm:"uid"`
-	Sex                     string `gorm:"sex"`
+	UID                     uint   `gorm:"column:uid"`
 	BedTime                 string `gorm:"column:bedTime"`
 	WakeUpTime              string `gorm:"column:wakeUpTime"`
 	SleepQuality            string `gorm:"column:sleepQuality"`
@@ -100,6 +106,19 @@ func InitRouter(r *gin.Engine) {
 		}
 		c.JSON(http.StatusOK, questionnaireInfo)
 	})
+
+	r.GET("/results", func(c *gin.Context) {
+		results := []Results{
+			{"Cindy"},
+			{"Bob"},
+			{"Alice"},
+			{"Kadi"},
+			{"Watt"},
+			{"Tom"},
+		}
+		c.JSON(http.StatusOK, results)
+	})
+
 	r.OPTIONS("/questionnaire", func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -124,7 +143,15 @@ func InitRouter(r *gin.Engine) {
 		data2.Name = requestData.Name
 		data2.Major = requestData.Major
 		data2.Homestr = strings.Join(requestData.Home, ",")
-		data2.Sex = requestData.Sex
+		if requestData.Sex == "男"{
+			data2.Sex = "0"
+		}else{
+			data2.Sex = "1"
+		}
+		data2.SychronizedSchedule = requestData.SameRoutine.(string)
+		data2.SpendingResponsibility = strings.Join(requestData.CostType, ",")
+		data2.Interests = strings.Join(requestData.Hobby, ",")
+
 		db.Create(&data2)
 		var uu = new(UserBaseInfo)
 		db.First(uu)
@@ -133,11 +160,6 @@ func InitRouter(r *gin.Engine) {
 		db.AutoMigrate(&UserQuestionnaireData{})
 		var data UserQuestionnaireData
 		data.UID = data2.UID
-		if requestData.Sex == "男" {
-			data.Sex = "1"
-		} else {
-			data.Sex = "0"
-		}
 		data.BedTime = requestData.SleepTime.(string)
 		data.WakeUpTime = requestData.GetupTime.(string)
 		data.SleepQuality = requestData.SleepQuality.(string)
