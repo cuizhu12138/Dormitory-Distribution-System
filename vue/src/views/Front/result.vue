@@ -73,8 +73,8 @@
 
         <el-form-item label="是否希望作息时间同步">
           <el-select v-model="form.sameRoutine" :disabled="true">
-            <el-option label="是"></el-option>
-            <el-option label="否"></el-option>
+            <el-option label="是" value=0></el-option>
+            <el-option label="否" value=1></el-option>
           </el-select>
         </el-form-item>
 
@@ -227,15 +227,7 @@ export default {
       dialogVisble:false,
       pcTextArr,
       tableData:[
-        {
-          name:"Bob",
-        },
-        {
-          name:"Alice",
-        },
-        {
-          name:"John",
-        }
+        
       ],
       form:{
           id: "8bb6",
@@ -280,9 +272,9 @@ export default {
 
   created(){
     //与后端对接时用,获取室友名称
-    // axios.get("").then(res=>{
-    //   this.tableData=res.data
-    // })
+    axios.get("http://localhost:8080/results").then(res=>{
+      this.tableData=res.data
+    })
   },
   methods:{
     checkQuesionnaire(){
