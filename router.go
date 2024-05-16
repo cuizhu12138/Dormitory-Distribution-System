@@ -58,7 +58,7 @@ type UserBaseInfo struct {
 	Homestr string `gorm:"home"`
 }
 type UserQuestionnaireData struct {
-	UID                     uint   `gorm:"primaryKey;autoIncrement"`
+	UID                     uint   `gorm:"uid"`
 	Sex                     string `gorm:"sex"`
 	BedTime                 string `gorm:"column:bedTime"`
 	WakeUpTime              string `gorm:"column:wakeUpTime"`
@@ -118,8 +118,21 @@ func InitRouter(r *gin.Engine) {
 		if err != nil {
 			panic(err)
 		}
+		db.AutoMigrate(&UserBaseInfo{})
+		var data2 UserBaseInfo
+		data2.Age = requestData.Age
+		data2.Name = requestData.Name
+		data2.Major = requestData.Major
+		data2.Homestr = strings.Join(requestData.Home, ",")
+		data2.Sex = requestData.Sex
+		db.Create(&data2)
+		var uu = new(UserBaseInfo)
+		db.First(uu)
+		fmt.Printf("%#v\n", uu)
+
 		db.AutoMigrate(&UserQuestionnaireData{})
 		var data UserQuestionnaireData
+		data.UID = data2.UID
 		if requestData.Sex == "男" {
 			data.Sex = "1"
 		} else {
@@ -141,22 +154,11 @@ func InitRouter(r *gin.Engine) {
 		data.SharedExpenses = requestData.ShareCost.(string)
 		data.SharedInterests = requestData.HobbySameExpection.(string)
 		db.Create(&data)
-		db.Debug().Create(&data)
+		db.Commit()
+		fmt.Println("新创建记录的自增主键值为:", data.UID)
 		var u = new(UserQuestionnaireData)
-		db.First(u)
+		db.Last(u)
 		fmt.Printf("%#v\n", u)
 
-		db.AutoMigrate(&UserBaseInfo{})
-		var data2 UserBaseInfo
-		data2.Age = requestData.Age
-		data2.Name = requestData.Name
-		data2.Major = requestData.Major
-		data2.Homestr = strings.Join(requestData.Home, ",")
-		data2.Sex = requestData.Sex
-		db.Create(&data2)
-		db.Debug().Create(&data2)
-		var uu = new(UserBaseInfo)
-		db.First(uu)
-		fmt.Printf("%#v\n", uu)
 	})
 }
