@@ -161,7 +161,7 @@ def getStuData_db():
     stuDataDict={}
     with sqlite3.connect(dbpath) as db:
         cur=db.cursor()
-        cur.execute("select * from questionnaire_data_afs")
+        cur.execute("select * from user_questionnaire_data")
         for uid,*anslist in cur:
             sidlist.append(uid)
             stu=StudentData(uid)
