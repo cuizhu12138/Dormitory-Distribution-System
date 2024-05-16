@@ -1,332 +1,530 @@
 <template>
-
   <div>
     <div>
-      <h1> 调查问卷页面</h1>
+      <h1>Quesionnaire</h1>
+
     </div>
 
     <div>
-      <el-form ref="form" :model="form" label-width="200px" label-position="top" >
-        <el-form-item label="性别">
-          <el-select v-model="form.sex" placeholder="请选择性别">
-            <el-option label="男" value="man"></el-option>
-            <el-option label="女" value="woman"></el-option>
-          </el-select>
-        </el-form-item>
+      <el-table :data="tableData" border style="width: 100%">
+        <el-table-column prop="title" label="Name" ></el-table-column>
+        <el-table-column prop="state" label="State" ></el-table-column>
+        <el-table-column fixed="right" label="option" width="150">
+          <template slot-scope="scope">
+            <el-row>
+              <div style="display: flex; align-items: center;">
+                  <el-button @click="writeQuesionnaire" type="success" size="small" :disabled="scope.row.state==='Disabled'" plain style="margin-right: px;">Fill in</el-button>
+                  <el-button @click="checkQuesionnaire(scope.row.qid)" type="primary" size="small">Check</el-button>
+              </div> 
+            </el-row>
+          </template>
+        </el-table-column>
 
-        <el-form-item label="专业">
-          <el-input v-model="form.major"></el-input>
-        </el-form-item>
+      </el-table>
 
-        <el-form-item label="籍贯">
-          <el-input v-model="form.home"></el-input>
-        </el-form-item>
+    <div>
+      <!--      问卷填写弹窗-->
+      <el-dialog title="问卷填写" :visible.sync="dialogVisble" width="50%" >
+        <el-form :model="form">
 
-        <el-form-item label="你通常几点睡觉?">
-          <el-radio-group v-model="form.sleepTime">
-            <el-radio label="22:00以前"></el-radio>
-            <el-radio label="22:00-23:00"></el-radio>
-            <el-radio label="23:00-24:00"></el-radio>
-            <el-radio label="24:00以后"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="学号" :label-width="formLabelWidth">
+            <el-input v-model="form.studentId" autocomplete="off"></el-input>
+          </el-form-item>
 
-        <el-form-item label="你通常几点起床?">
-          <el-radio-group v-model="form.getupTime">
-            <el-radio label="6:00以前"></el-radio>
-            <el-radio label="6:00-7:00"></el-radio>
-            <el-radio label="7:00-8:00"></el-radio>
-            <el-radio label="8:00以后"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="姓名" :label-width="formLabelWidth">
+            <el-input v-model="form.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" :label-width="formLabelWidth">
+            <el-select v-model="form.sex" placeholder="请选择性别">
+              <el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你对室友的作息时间有什么要求或期望?">
-          <el-radio-group v-model="form.timeExpectation">
-            <el-radio label="与我相同或相近"></el-radio>
-            <el-radio label="不影响我的休息就行"></el-radio>
-            <el-radio label="没有要求或期望"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="专业" :label-width="formLabelWidth">
+            <el-input v-model="form.major" autocomplete="off"></el-input>
+          </el-form-item>
 
-        <el-form-item label="你是否会在寝室学习或工作?">
-          <el-radio-group v-model="form.dormitoryActivity">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="年龄" :label-width="formLabelWidth">
+            <el-input v-model="form.age" autocomplete="off"></el-input>
+          </el-form-item>
 
-        <el-form-item label="你是否会在寝室娱乐或放松?">
-          <el-radio-group v-model="form.dormitoryEntertainment">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你对寝室的整洁程度有什么要求或期望?">
-          <el-radio-group v-model="form.dormitoryCleanExpectation">
-            <el-radio label="非常干净"></el-radio>
-            <el-radio label="比较干净"></el-radio>
-            <el-radio label="一般"></el-radio>
-            <el-radio label="不太在意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你通常多久打扫一次寝室?">
-          <el-radio-group v-model="form.dormitoryCleanFrequency">
-            <el-radio label="每天"></el-radio>
-            <el-radio label="每周"></el-radio>
-            <el-radio label="每月"></el-radio>
-            <el-radio label="不定期"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会主动参与寝室的打扫工作?">
-          <el-radio-group v-model="form.dormitoryCleanWork">
-            <el-radio label="是，主动"></el-radio>
-            <el-radio label="是，被提醒后"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会在寝室吃东西或喝饮料?">
-          <el-radio-group v-model="form.dormitoryFood">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="是，偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会及时处理寝室的垃圾?">
-          <el-radio-group v-model="form.dormitoryRubbish">
-            <el-radio label="是，每次"></el-radio>
-            <el-radio label="是，大部分时候"></el-radio>
-            <el-radio label="否，很少"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会与室友共用一些物品，如卫生纸、洗衣液、电饭煲等?">
-          <el-radio-group v-model="form.shareThings">
-            <el-radio label="是，愿意"></el-radio>
-            <el-radio label="是，但要征得对方同意"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你你是否会借用室友的一些物品，如书籍、衣服、电脑等?">
-            <el-radio-group v-model="form.borrowThings">
-              <el-radio label="是，愿意"></el-radio>
-              <el-radio label="是，但要征得对方同意"></el-radio>
-              <el-radio label="否，不愿意"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会主动购买或补充寝室的一些物品，如卫生纸、洗衣液、电饭煲等?">
-          <el-radio-group v-model="form.buyThings">
-            <el-radio label="是，愿意"></el-radio>
-            <el-radio label="是，但要与室友商量"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你是否会及时归还或清洗寝室的一些物品，如书籍、衣服、电饭煲等?">
-          <el-radio-group v-model="form.returnThings">
-            <el-radio label="是，每次"></el-radio>
-            <el-radio label="是，大部分时候"></el-radio>
-            <el-radio label="否，很少"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="你的月生活费大概是多少?">
-          <el-radio-group v-model="form.money">
-            <el-radio label="500元以下"></el-radio>
-            <el-radio label="500-1000元"></el-radio>
-            <el-radio label="1000-1500元"></el-radio>
-            <el-radio label="1500元以上"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <span>籍贯</span><br>
+          <el-cascader
+              size="large"
+              :options="pcTextArr"
+              v-model="form.home" placeholder="请选择地区">
+          </el-cascader>
 
 
-        <el-form-item label="你通常会在什么方面花钱?">
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="饮食" name="type"></el-checkbox>
-            <el-checkbox label="衣服" name="type"></el-checkbox>
-            <el-checkbox label="娱乐" name="type"></el-checkbox>
-            <el-checkbox label="学习" name="type"></el-checkbox>
-            <el-checkbox label="其他" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+          <el-form-item label="民族" :label-width="formLabelWidth">
+            <el-input v-model="form.ethnic" autocomplete="off"></el-input>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友一起外出消费，如吃饭、逛街、看电影等?">
-          <el-radio-group v-model="form.outside">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="是，偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="睡觉时间" :label-width="formLabelWidth">
+            <el-select v-model="form.sleepTime" placeholder="请选择时间">
+              <el-option label="22:30-23:30" value=0></el-option>
+              <el-option label="23:30-00:30" value=1></el-option>
+              <el-option label="00:30-01:30" value=2></el-option>
+              <el-option label="01:30以后" value=3></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友一起共享消费，如拼单、拼车、拼房等?">
-          <el-radio-group v-model="form.shareConsume">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="是，偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="起床时间" :label-width="formLabelWidth">
+            <el-select v-model="form.getupTime" placeholder="请选择时间">
+              <el-option label="7:00之前" value=0></el-option>
+              <el-option label="7:00-8:30" value=1></el-option>
+              <el-option label="8:30-10:00" value=2></el-option>
+              <el-option label="10:00以后" value=3></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你的兴趣爱好有哪些?">
-          <el-checkbox-group v-model="form.hobby">
-            <el-checkbox label="阅读" name="hobby"></el-checkbox>
-            <el-checkbox label="写作" name="hobby"></el-checkbox>
-            <el-checkbox label="绘画" name="hobby"></el-checkbox>
-            <el-checkbox label="音乐" name="hobby"></el-checkbox>
-            <el-checkbox label="电影" name="hobby"></el-checkbox>
-            <el-checkbox label="体育" name="hobby"></el-checkbox>
-            <el-checkbox label="游戏" name="hobby"></el-checkbox>
-            <el-checkbox label="旅行" name="hobby"></el-checkbox>
-            <el-checkbox label="其他" name="hobby"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+          <el-form-item label="是否希望作息时间同步">
+            <el-select v-model="form.sameRoutine">
+              <el-option label="是"></el-option>
+              <el-option label="否"></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会在寝室进行你的兴趣爱好?">
-          <el-radio-group v-model="form.dormitoryHobby">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="是，偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="学习是否更偏向在寝室">
+            <el-select v-model="form.learnInDorm">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友分享你的兴趣爱好?">
-          <el-radio-group v-model="form.shareHobby">
-            <el-radio label="是，愿意"></el-radio>
-            <el-radio label="是，但要看对方的反应"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="对寝室的整洁程度要求和期望">
+            <el-select v-model="form.neatExpection">
+              <el-option label="有洁癖，需要寝室保持高整洁度" value=0></el-option>
+              <el-option label="间歇式洁癖，有的时候特别整洁" value=1></el-option>
+              <el-option label="别人整洁我也整洁，别人无所谓我也无所谓" value=2></el-option>
+              <el-option label="对整洁度要求不高，无所谓" value=3></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会尊重和支持室友的兴趣爱好?">
-          <el-radio-group v-model="form.respectHobby">
-            <el-radio label="是，总是"></el-radio>
-            <el-radio label="是，但要看具体情况"></el-radio>
-            <el-radio label="否，不会"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="打扫寝室周期">
+            <el-select v-model="form.cleanPeriod">
+              <el-option label="每天" value=0></el-option>
+              <el-option label="一周两-三次" value=1></el-option>
+              <el-option label="一周一次" value=2></el-option>
+              <el-option label="看心情" value=3></el-option>
+              <el-option label="从不" value=4></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会帮助室友拿快递或外卖?">
-          <el-radio-group v-model="form.takeCourier">
-            <el-radio label="是，愿意"></el-radio>
-            <el-radio label="是，但要看具体情况"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="洗澡周期">
+            <el-select v-model="form.bathePeriod">
+              <el-option label="每天" value=0></el-option>
+              <el-option label="一周两-三次" value=1></el-option>
+              <el-option label="一周一次" value=2></el-option>
+              <el-option label="看心情，可能很久" value=3></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友聊天或交流心事?">
-          <el-radio-group v-model="form.communication">
-            <el-radio label="是，愿意"></el-radio>
-            <el-radio label="是，但要看具体情况"></el-radio>
-            <el-radio label="否，不愿意"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="月生活费大概多少">
+            <el-select v-model="form.expense">
+              <el-option label="0k-1.5k" value=0></el-option>
+              <el-option label="1.5k-2.5k" value=1></el-option>
+              <el-option label="2.5k-3.5k" value=2></el-option>
+              <el-option label="3.5k以上" value=3></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友发生冲突或矛盾?">
-          <el-radio-group v-model="form.conflict">
-            <el-radio label="是，经常"></el-radio>
-            <el-radio label="是，偶尔"></el-radio>
-            <el-radio label="否，从不"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="花销主体">
+            <el-checkbox-group v-model="form.costType">
+              <el-checkbox label="吃饭，买零食" name=0></el-checkbox>
+              <el-checkbox label="娱乐活动" name=1></el-checkbox>
+              <el-checkbox label="社交" name=2></el-checkbox>
+              <el-checkbox label="提升自己" name=3></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
 
-        <el-form-item label="你是否会与室友协商或解决冲突或矛盾?">
-          <el-radio-group v-model="form.mediation">
-            <el-radio label="是，主动"></el-radio>
-            <el-radio label="是，被动"></el-radio>
-            <el-radio label="否，不会"></el-radio>
-          </el-radio-group>
-        </el-form-item>
+          <el-form-item label="是否愿意与室友一起外出消费">
+            <el-select v-model="form.outCost">
+              <el-option label="经常" value=0></el-option>
+              <el-option label="偶尔" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="是否喝酒">
-          <el-select v-model="form.drink" placeholder="请选择">
-            <el-option label="是" value=true></el-option>
-            <el-option label="否" value=false></el-option>
-          </el-select>
-        </el-form-item>
+          <el-form-item label="是否会愿意室友一起共享消费">
+            <el-select v-model="form.shareCost">
+              <el-option label="经常" value=0></el-option>
+              <el-option label="偶尔" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
 
-        <el-form-item label="是否抽烟">
-          <el-select v-model="form.smoke" placeholder="请选择">
-            <el-option label="是" value=true></el-option>
-            <el-option label="否" value=false></el-option>
-          </el-select>
-        </el-form-item>
+          <el-form-item label="兴趣爱好 ">
+            <el-checkbox-group v-model="form.hobby">
+              <el-checkbox label="运动" name=0></el-checkbox>
+              <el-checkbox label="网上冲浪" name=1></el-checkbox>
+              <el-checkbox label="读书学习" name=2></el-checkbox>
+              <el-checkbox label="艺术相关" name=3></el-checkbox>
+              <el-checkbox label="其他" name=3></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
-          <el-button>取消</el-button>
-        </el-form-item>
+          <el-form-item label="是否期望与室友爱好相同">
+            <el-select v-model="form.hobbySameExpection">
+              <el-option label="非常希望" value=0></el-option>
+              <el-option label="最好可以" value=1></el-option>
+              <el-option label="都可以接收" value=2></el-option>
+            </el-select>
+          </el-form-item>
 
-      </el-form>
+          <el-form-item label="是否会与室友聊天或交流心事">
+            <el-select v-model="form.wantCommunicate">
+              <el-option label="经常会" value=0></el-option>
+              <el-option label="偶尔会" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否抽烟">
+            <el-select v-model="form.smoke">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否喝酒">
+            <el-select v-model="form.drink">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否打呼噜">
+            <el-select v-model="form.snore">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="睡眠质量">
+            <el-select v-model="form.sleepQuality">
+              <el-option label="好" value=0></el-option>
+              <el-option label="一般" value=1></el-option>
+              <el-option label="差" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisble = false">取 消</el-button>
+          <el-button type="primary" @click="saveQuetionnaire">保存</el-button>
+          <el-button type="success" @click="updateQuetionnaire">提交</el-button>
+        </div>
+      </el-dialog>
+
+<!--      问卷查看弹窗-->
+      <el-dialog title="问卷查看" :visible.sync="checkDialogVisble" width="50%" >
+        <el-form :model="checkform">
+
+          <el-form-item label="学号" :label-width="formLabelWidth">
+            <el-input v-model="checkform.studentId" autocomplete="off"></el-input>
+          </el-form-item>
+
+          <el-form-item label="姓名" :label-width="formLabelWidth">
+            <el-input v-model="checkform.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" :label-width="formLabelWidth">
+            <el-select v-model="checkform.sex" placeholder="请选择性别">
+              <el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="专业" :label-width="formLabelWidth">
+            <el-input v-model="checkform.major" autocomplete="off"></el-input>
+          </el-form-item>
+
+          <el-form-item label="年龄" :label-width="formLabelWidth">
+            <el-input v-model="checkform.age" autocomplete="off"></el-input>
+          </el-form-item>
+
+          <span>籍贯</span><br>
+          <el-cascader
+              size="large"
+              :options="pcTextArr"
+              v-model="checkform.home" placeholder="请选择地区">
+          </el-cascader>
+
+
+          <el-form-item label="民族" :label-width="formLabelWidth">
+            <el-input v-model="checkform.ethnic" autocomplete="off"></el-input>
+          </el-form-item>
+
+          <el-form-item label="睡觉时间" :label-width="formLabelWidth">
+            <el-select v-model="checkform.sleepTime" placeholder="请选择时间">
+              <el-option label="22:30-23:30" value=0></el-option>
+              <el-option label="23:30-00:30" value=1></el-option>
+              <el-option label="00:30-01:30" value=2></el-option>
+              <el-option label="01:30以后" value=3></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="起床时间" :label-width="formLabelWidth">
+            <el-select v-model="checkform.getupTime" placeholder="请选择时间">
+              <el-option label="7:00之前" value=0></el-option>
+              <el-option label="7:00-8:30" value=1></el-option>
+              <el-option label="8:30-10:00" value=2></el-option>
+              <el-option label="10:00以后" value=3></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否希望作息时间同步">
+            <el-select v-model="checkform.sameRoutine">
+              <el-option label="是"></el-option>
+              <el-option label="否"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="学习是否更偏向在寝室">
+            <el-select v-model="checkform.learnInDorm">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="对寝室的整洁程度要求和期望">
+            <el-select v-model="checkform.neatExpection">
+              <el-option label="有洁癖，需要寝室保持高整洁度" value=0></el-option>
+              <el-option label="间歇式洁癖，有的时候特别整洁" value=1></el-option>
+              <el-option label="别人整洁我也整洁，别人无所谓我也无所谓" value=2></el-option>
+              <el-option label="对整洁度要求不高，无所谓" value=3></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="打扫寝室周期">
+            <el-select v-model="checkform.cleanPeriod">
+              <el-option label="每天" value=0></el-option>
+              <el-option label="一周两-三次" value=1></el-option>
+              <el-option label="一周一次" value=2></el-option>
+              <el-option label="看心情" value=3></el-option>
+              <el-option label="从不" value=4></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="洗澡周期">
+            <el-select v-model="checkform.bathePeriod">
+              <el-option label="每天" value=0></el-option>
+              <el-option label="一周两-三次" value=1></el-option>
+              <el-option label="一周一次" value=2></el-option>
+              <el-option label="看心情，可能很久" value=3></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="月生活费大概多少">
+            <el-select v-model="checkform.expense">
+              <el-option label="0k-1.5k" value=0></el-option>
+              <el-option label="1.5k-2.5k" value=1></el-option>
+              <el-option label="2.5k-3.5k" value=2></el-option>
+              <el-option label="3.5k以上" value=3></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="花销主体">
+            <el-checkbox-group v-model="checkform.costType">
+              <el-checkbox label="吃饭，买零食" name=0></el-checkbox>
+              <el-checkbox label="娱乐活动" name=1></el-checkbox>
+              <el-checkbox label="社交" name=2></el-checkbox>
+              <el-checkbox label="提升自己" name=3></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+
+          <el-form-item label="是否愿意与室友一起外出消费">
+            <el-select v-model="checkform.outCost">
+              <el-option label="经常" value=0></el-option>
+              <el-option label="偶尔" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否会愿意室友一起共享消费">
+            <el-select v-model="checkform.shareCost">
+              <el-option label="经常" value=0></el-option>
+              <el-option label="偶尔" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="兴趣爱好 ">
+            <el-checkbox-group v-model="checkform.hobby">
+              <el-checkbox label="运动" name=0></el-checkbox>
+              <el-checkbox label="网上冲浪" name=1></el-checkbox>
+              <el-checkbox label="读书学习" name=2></el-checkbox>
+              <el-checkbox label="艺术相关" name=3></el-checkbox>
+              <el-checkbox label="其他" name=3></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+
+          <el-form-item label="是否期望与室友爱好相同">
+            <el-select v-model="checkform.hobbySameExpection">
+              <el-option label="非常希望" value=0></el-option>
+              <el-option label="最好可以" value=1></el-option>
+              <el-option label="都可以接收" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否会与室友聊天或交流心事">
+            <el-select v-model="checkform.wantCommunicate">
+              <el-option label="经常会" value=0></el-option>
+              <el-option label="偶尔会" value=1></el-option>
+              <el-option label="不会" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否抽烟">
+            <el-select v-model="checkform.smoke">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否喝酒">
+            <el-select v-model="checkform.drink">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="是否打呼噜">
+            <el-select v-model="checkform.snore">
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="睡眠质量">
+            <el-select v-model="checkform.sleepQuality">
+              <el-option label="好" value=0></el-option>
+              <el-option label="一般" value=1></el-option>
+              <el-option label="差" value=2></el-option>
+            </el-select>
+          </el-form-item>
+
+
+        </el-form>
+<!--        <div slot="footer" class="dialog-footer">-->
+<!--          <el-button @click="dialogVisble = false">取 消</el-button>-->
+<!--          <el-button type="primary" @click="saveQuetionnaire">保存</el-button>-->
+<!--          <el-button type="success" @click="updateQuetionnaire">提交</el-button>-->
+<!--        </div>-->
+      </el-dialog>
+
     </div>
 
-
-
-
+    </div>
   </div>
+
+
 
 </template>
 
-<script>
-export default {
-  name:'QuestionnaireView',
 
+
+<script>
+import axios from "axios";
+import {
+  provinceAndCityData,
+  pcTextArr,
+  regionData,
+  pcaTextArr,
+  codeToText,
+} from "element-china-area-data";
+
+
+export default {
+  name: 'QuestionnaireView',
   data() {
     return {
-      form: {
+      user_id:2204020202,
+      qid:null,
+      pcTextArr,
+      pos:"questionnaire",
+      dialogVisble:false,
+      checkDialogVisble:false,
+      checkform:{},
+      form:{
+        questionnaireId:null,
+        studentId:null,
+        name:'',
         sex:'',
         major:'',
-        home:'',
-        sleepTime:'',
-        getupTime:'',
-        timeExpectation:'',
-        dormitoryActivity:'',
-        dormitoryEntertainment:'',
-        dormitoryCleanExpectation:'',
-        dormitoryCleanWork:'',
-        dormitoryFood:'',
-        dormitoryRubbish:'',
-        shareThings:'',
-        borrowThings:'',
-        buyThings:'',
-        returnThings:'',
-        money:'',
-        type:[],
-        outside:'',
-        shareConsume:'',
+        age:'',
+        home:[],
+        ethnic:'',
+        sleepTime:null,
+        getupTime:null,
+        sameRoutine:null,
+        learnInDorm:null,
+        neatExpection:null,
+        cleanPeriod:null,
+        bathePeriod:null,
+        expense:null,
+        costType:[],
+        outCost:null,
+        shareCost:null,
         hobby:[],
-        dormitoryHobby:'',
-        shareHobby:'',
-        respectHobby:'',
-        takeCourier:'',
-        communication:'',
-        conflict:'',
-        mediation:'',
-        drink:'',
-        smoke:'',
+        hobbySameExpection:null,
+        wantCommunicate:null,
+        smoke:null,
+        drink:null,
+        snore:null,
+        sleepQuality:null
       },
+      tableData: []
     }
   },
-  methods: {
-    onSubmit() {
-      console.log(this.form);
-    }
+  created() {
+    axios.get("http://localhost:8080/questionnaireInfo").then(res=>{
+      this.tableData=res.data;
+    })
+  },
+  methods:{
+    writeQuesionnaire(){
+      this.dialogVisble = true
+    },
+    checkQuesionnaire(qid){
+      this.checkDialogVisble=true
+      axios.get("http://localhost:8080/questionnaire").then(res=>{
+        let tmpform={};
+        for(let i=0;i<res.data.length;i++)
+        {
+          let p=res.data[i];
+          if(p.qid===qid&&p.studentId===this.user_id)
+          {
+            this.checkform=res.data[i]
+            console.log(res.data[i])
+          }
+        }
+      })
+    },
+    saveQuetionnaire(){
+      this.dialogVisble = false
+      this.$message({
+        message: '保存成功',
+        type: 'success'
+      });
+    },
+    updateQuetionnaire(){
+      axios.post(`http://localhost:8080/${this.pos}`,this.form).then(res=>{
+        console.log(res)
+      })
+      this.dialogVisble=false
+      this.$message({
+        message: '恭喜你，提交成功',
+        type: 'success'
+      });
+    },
   }
 
 
-}
 
+}
 </script>
 
 
-
-<style scoped>
-
-
-</style>
