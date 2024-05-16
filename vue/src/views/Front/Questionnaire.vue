@@ -81,8 +81,8 @@
 
           <el-form-item label="是否希望作息时间同步">
             <el-select v-model="form.sameRoutine">
-              <el-option label="是"></el-option>
-              <el-option label="否"></el-option>
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
@@ -277,8 +277,8 @@
 
           <el-form-item label="是否希望作息时间同步">
             <el-select v-model="checkform.sameRoutine">
-              <el-option label="是"></el-option>
-              <el-option label="否"></el-option>
+              <el-option label="是" value=0></el-option>
+              <el-option label="否" value=1></el-option>
             </el-select>
           </el-form-item>
 
