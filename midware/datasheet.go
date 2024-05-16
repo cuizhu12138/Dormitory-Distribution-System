@@ -58,7 +58,7 @@ func (UserHabbit) TableName() string {
 
 // 分配结果表
 type DistributionResult struct {
-	AllocationID        int64  `gorm:"column:AllocationID;      			type:INT"`
+	AllocationID        int64  `gorm:"column:AllocationID;      			type:INT PRIMARY KEY;autoIncrement"`
 	OptionInfo          string `gorm:"column:OptionInfo;          			type:NVARCHAR"`
 	RoomNumber          string `gorm:"column:RoomNumber;          			type:NVARCHAR"`
 	UID                 int64  `gorm:"column:UID;       					type:INT"`
