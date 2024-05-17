@@ -234,8 +234,8 @@ def main_mpga(sids:list):#分男女寝
             sids0.append(sid)
         else:
             sids1.append(sid)
-    ans1=main_mpga_base(sids0,'男')#男
-    ans2=main_mpga_base(sids1,'女')#女
+    ans1=main_mpga_base(sids0,'fitness function of Man')#男
+    ans2=main_mpga_base(sids1,'fitness function of Woman')#女
     return ans_merge(ans1,ans2)
     
 def main_first():#初次分配
