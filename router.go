@@ -53,18 +53,18 @@ type QuestionnaireData struct {
 	SleepQuality       interface{} `json:"sleepQuality"`
 }
 type UserBaseInfo struct {
-	UID     uint   `gorm:"column:uid;primaryKey;autoIncrement"`
-	Name    string `gorm:"column:name"`
-	Sex     string `gorm:"column:sex"`
-	Major   string `gorm:"column:major"`
-	Age     string `gorm:"column:age"`
-	Homestr string `gorm:"column:home"`
-	SychronizedSchedule string `gorm:"column:sychronizedSchedule"`
+	UID                    uint   `gorm:"column:uid;primaryKey;autoIncrement"`
+	Name                   string `gorm:"column:name"`
+	Sex                    string `gorm:"column:sex"`
+	Major                  string `gorm:"column:major"`
+	Age                    string `gorm:"column:age"`
+	Homestr                string `gorm:"column:home"`
+	SychronizedSchedule    string `gorm:"column:sychronizedSchedule"`
 	SpendingResponsibility string `gorm:"column:spendingResponsibility"`
-	Interests string `gorm:"column:interests"`
+	Interests              string `gorm:"column:interests"`
 }
 type UserQuestionnaireData struct {
-	UID                     uint   `gorm:"column:uid"`
+	UID                     uint   `gorm:"column:uid;primaryKey;autoIncrement"`
 	BedTime                 string `gorm:"column:bedTime"`
 	WakeUpTime              string `gorm:"column:wakeUpTime"`
 	SleepQuality            string `gorm:"column:sleepQuality"`
@@ -130,6 +130,7 @@ func InitRouter(r *gin.Engine) {
 			c.JSON(400, gin.H{"error": "Failed to parse JSON"})
 			return
 		}
+		for i := 0; i < 60; i++ {
 		dsn := "gorm.db"
 		db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 		if err != nil {
@@ -141,41 +142,42 @@ func InitRouter(r *gin.Engine) {
 		data2.Name = requestData.Name
 		data2.Major = requestData.Major
 		data2.Homestr = strings.Join(requestData.Home, ",")
-		if requestData.Sex == "男"{
+		if requestData.Sex == "男" {
 			data2.Sex = "0"
-		}else{
+		} else {
 			data2.Sex = "1"
 		}
 		data2.SychronizedSchedule = requestData.SameRoutine.(string)
 		data2.SpendingResponsibility = strings.Join(requestData.CostType, ",")
 		data2.Interests = strings.Join(requestData.Hobby, ",")
+		
+			db.Create(&data2)
+			// var uu = new(UserBaseInfo)
+			// db.First(uu)
+			// fmt.Printf("%#v\n", uu)
 
-		db.Create(&data2)
-		var uu = new(UserBaseInfo)
-		db.First(uu)
-		// fmt.Printf("%#v\n", uu)
+			db.AutoMigrate(&UserQuestionnaireData{})
+			var data UserQuestionnaireData
 
-		db.AutoMigrate(&UserQuestionnaireData{})
-		var data UserQuestionnaireData
+			data.UID = data2.UID
+			data.BedTime = requestData.SleepTime.(string)
+			data.WakeUpTime = requestData.GetupTime.(string)
+			data.SleepQuality = requestData.SleepQuality.(string)
+			data.DomStudy = requestData.LearnInDorm.(string)
+			data.Smoke = requestData.Smoke.(string)
+			data.Drink = requestData.Drink.(string)
+			data.Snore = requestData.Snore.(string)
+			data.ChattingSharinsThoushts = requestData.WantCommunicate.(string)
+			data.Leanliness = requestData.NeatExpection.(string)
+			data.Cleaningfrsgueney = requestData.CleanPeriod.(string)
+			data.ShowerFrequency = requestData.BathePeriod.(string)
+			data.MonthlyBudget = requestData.Expense.(string)
+			data.JointOutings = requestData.OutCost.(string)
+			data.SharedExpenses = requestData.ShareCost.(string)
+			data.SharedInterests = requestData.HobbySameExpection.(string)
 
-		data.UID = data2.UID
-		data.BedTime = requestData.SleepTime.(string)
-		data.WakeUpTime = requestData.GetupTime.(string)
-		data.SleepQuality = requestData.SleepQuality.(string)
-		data.DomStudy = requestData.LearnInDorm.(string)
-		data.Smoke = requestData.Smoke.(string)
-		data.Drink = requestData.Drink.(string)
-		data.Snore = requestData.Snore.(string)
-		data.ChattingSharinsThoushts = requestData.WantCommunicate.(string)
-		data.Leanliness = requestData.NeatExpection.(string)
-		data.Cleaningfrsgueney = requestData.CleanPeriod.(string)
-		data.ShowerFrequency = requestData.BathePeriod.(string)
-		data.MonthlyBudget = requestData.Expense.(string)
-		data.JointOutings = requestData.OutCost.(string)
-		data.SharedExpenses = requestData.ShareCost.(string)
-		data.SharedInterests = requestData.HobbySameExpection.(string)
-
-		db.Create(&data)
+			db.Create(&data)
+		}
 		// db.Commit()
 		// var u = new(UserQuestionnaireData)
 		// db.Last(u)
