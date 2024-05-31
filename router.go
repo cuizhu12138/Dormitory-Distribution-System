@@ -69,7 +69,7 @@ func InitRouter(r *gin.Engine) {
 	})
 	r.POST("/register" , controller.Register)
 	r.POST("/login" , controller.Login)
-	r.POST("/feedback", controller.Feedback)
+	
 
 
 	g1 := r.Group("/auth")
@@ -103,6 +103,7 @@ func InitRouter(r *gin.Engine) {
 		c.Status(http.StatusOK)
 	})
 	r.Use(midware.AuthMiddleware())
+	r.POST("/feedback", controller.Feedback)
 	r.POST("/questionnaire", func(c *gin.Context) {
 		fmt.Println("here is wrong --")
 		var requestData QuestionnaireData

@@ -66,6 +66,7 @@ export default {
   name: "FrontView",
   methods:{
     loginOut(){
+      localStorage.removeItem('token')
       this.$message({
         message: '成功退出',
         type: 'success'
