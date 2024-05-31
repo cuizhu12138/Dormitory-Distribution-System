@@ -427,6 +427,7 @@
 
 
 <script>
+import request from "@/utils/request";
 import axios from "axios";
 import {
   provinceAndCityData,
@@ -480,8 +481,8 @@ export default {
     }
   },
   created() {
-    axios.get("http://localhost:8080/questionnaireInfo").then(res=>{
-      this.tableData=res.data;
+    request.get("/questionnaireInfo").then(res=>{
+      this.tableData=res;
     })
   },
   methods:{
@@ -490,15 +491,15 @@ export default {
     },
     checkQuesionnaire(qid){
       this.checkDialogVisble=true
-      axios.get("http://localhost:8080/questionnaire").then(res=>{
+      request.get("/questionnaire").then(res=>{
         let tmpform={};
-        for(let i=0;i<res.data.length;i++)
+        for(let i=0;i<res.length;i++)
         {
-          let p=res.data[i];
+          let p=res[i];
           if(p.qid===qid&&p.studentId===this.user_id)
           {
-            this.checkform=res.data[i]
-            console.log(res.data[i])
+            this.checkform=res[i]
+            console.log(res[i])
           }
         }
       })
@@ -511,7 +512,7 @@ export default {
       });
     },
     updateQuetionnaire(){
-      axios.post(`http://localhost:8080/${this.pos}`,this.form).then(res=>{
+      request.post(`/${this.pos}`,this.form).then(res=>{
         console.log(res)
       })
       this.dialogVisble=false

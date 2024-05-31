@@ -1,43 +1,67 @@
-CREATE TABLE Login(
-    Uid integer PRIMARY KEY AUTO_INCREMENT,
-    Authority INT NOT NULL,
-    SchoolNumber text,
-    PassWord text
+
+-- Login 表
+CREATE TABLE IF NOT EXISTS logins(
+    uid INTEGER PRIMARY AUTOINCREMENT,
+    Authority INTEGER,
+    SchoolNumber NVARCHAR NOT NULL,
+    PassWord NVARCHAR NOT NULL,
 );
-CREATE TABLE UserFeedback (
-    FeedbackID INT AUTO_INCREMENT,
-    UserID BIGINT,
-    FeedbackContent TEXT,
-    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID) 
+
+-- 用户信息表
+CREATE TABLE IF NOT EXISTS user_base_infos(
+    uid INTEGER PRIMARY AUTOINCREMENT,
+    name INTEGER,
+    sex NVARCHAR,
+    major NVARCHAR,
+    age NVARCHAR,
+    home NVARCHAR,
+    sychronizedSchedule NVARCHAR,
+    spendingResponsibility NVARCHAR,
+    interests NVARCHAR
 );
-CREATE TABLE Questionnaire_data (
-    id SERIAL PRIMARY KEY,
-    id VARCHAR(255),
-    qid JSONB,
-    student_id VARCHAR(255),
-    name VARCHAR(255),
-    sex VARCHAR(255),
-    major VARCHAR(255),
-    age VARCHAR(255),
-    home VARCHAR(255)[],
-    ethnic VARCHAR(255),
-    sleep_time VARCHAR(255),
-    getup_time VARCHAR(255),
-    same_routine VARCHAR(255),
-    learn_in_dorm VARCHAR(255),
-    neat_expection VARCHAR(255),
-    clean_period VARCHAR(255),
-    bathe_period VARCHAR(255),
-    expense VARCHAR(255),
-    cost_type VARCHAR(255)[],
-    out_cost VARCHAR(255),
-    share_cost VARCHAR(255),
-    hobby VARCHAR(255)[],
-    hobby_same_expection VARCHAR(255),
-    want_communicate VARCHAR(255),
-    smoke VARCHAR(255),
-    drink VARCHAR(255),
-    snore VARCHAR(255),
-    sleep_quality VARCHAR(255)
+
+-- 用户问卷表
+CREATE TABLE IF NOT EXISTS user_questionnaire_datas(
+    uid INTEGER,
+    bedTime NVARCHAR,
+    wakeUpTime NVARCHAR,
+    sleepQuality NVARCHAR,
+    domStudy NVARCHAR,
+    smoke NVARCHAR,
+    drink NVARCHAR,
+    snore NVARCHAR,
+    chattingSharinsThoushts NVARCHAR,
+    leanliness NVARCHAR,
+    cleaningfrsgueney NVARCHAR,
+    showerkrequency NVARCHAR,
+    monthlyBudset NVARCHAR,
+    jointOutings NVARCHAR,
+    sharedExpenses NVARCHAR,
+    sharedInterests NVARCHAR
+);
+
+-- 寝室反馈表
+CREATE TABLE distribution_results (
+    AllocationID INTEGER PRIMARY KEY AUTOINCREMENT,
+    OptionInfo NVARCHAR,
+    RoomNumber NVARCHAR,
+    UID INTEGER,
+    DecisionForReassign NVARCHAR,
+    ReassignResult NVARCHAR
+);
+
+-- 结果用户信息表
+CREATE TABLE information_feedbacks (
+    feedbackid INTEGER PRIMARY KEY AUTOINCREMENT,
+    uid INTEGER,
+    feedbackcontent NVARCHAR,
+    timestamp TIMESTAMP
+);
+
+--反馈信息表
+CREATE TABLE user_feedbacks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER NOT NULL,
+    feedbackContent TEXT,
+    timestamp TIMESTAMP
 );

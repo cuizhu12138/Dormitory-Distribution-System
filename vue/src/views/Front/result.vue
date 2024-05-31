@@ -212,6 +212,7 @@
 
 <script>
 
+import request from "@/utils/request";
 import axios from "axios"
 import {
   provinceAndCityData,
@@ -272,8 +273,8 @@ export default {
 
   created(){
     //与后端对接时用,获取室友名称
-    axios.get("http://localhost:8080/results").then(res=>{
-      this.tableData=res.data
+    request.get("/results").then(res=>{
+      this.tableData=res
     })
   },
   methods:{

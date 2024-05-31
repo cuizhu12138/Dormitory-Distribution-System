@@ -10,7 +10,7 @@ npm install
 ### step2：终端输入运行vue文件
 
 ```
-npm run serve
+npm install
 ```
 
 #### json-server的安装

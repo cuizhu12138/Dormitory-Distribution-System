@@ -35,3 +35,18 @@ __pycache__
 __test*.py
 *.png
 *.gitignore
+# 忽略在 PlayTheMudWithGolang/Dormitory-Distribution-System 中的所有内容
+PlayTheMudWithGolang/Dormitory-Distribution-System/*
+
+# 忽略 PlayTheMudWithGolang/gorm.db 文件
+PlayTheMudWithGolang/gorm.db
+
+# 忽略 PlayTheMudWithGolang/testtools/q_db 目录及其内容
+PlayTheMudWithGolang/testtools/q_db/
+
+# 忽略 PlayTheMudWithGolang/testtools/d_db 目录及其内容
+PlayTheMudWithGolang/testtools/d_db/
+
+PlayTheMudWithGolang/Dormitory-Distribution-System
+
+# PlayTheMudWithGolang/gorm.db
