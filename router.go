@@ -2,6 +2,8 @@ package main
 
 import (
 	"Dormitory-Distribution-System/controller"
+	"Dormitory-Distribution-System/midware"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -13,7 +15,6 @@ import (
 type Results struct {
 	Name string `json:"name"`
 }
-
 type QuestionnaireInfo struct {
 	QID    int    `json:"qid"`
 	Title  string `json:"title"`
@@ -52,46 +53,13 @@ type QuestionnaireData struct {
 	Snore              interface{} `json:"snore"`
 	SleepQuality       interface{} `json:"sleepQuality"`
 }
-type UserBaseInfo struct {
-	UID                    uint   `gorm:"column:uid;primaryKey;autoIncrement"`
-	Name                   string `gorm:"column:name"`
-	Sex                    string `gorm:"column:sex"`
-	Major                  string `gorm:"column:major"`
-	Age                    string `gorm:"column:age"`
-	Homestr                string `gorm:"column:home"`
-	SychronizedSchedule    string `gorm:"column:sychronizedSchedule"`
-	SpendingResponsibility string `gorm:"column:spendingResponsibility"`
-	Interests              string `gorm:"column:interests"`
-}
-type UserQuestionnaireData struct {
-	UID                     uint   `gorm:"column:uid;primaryKey;autoIncrement"`
-	BedTime                 string `gorm:"column:bedTime"`
-	WakeUpTime              string `gorm:"column:wakeUpTime"`
-	SleepQuality            string `gorm:"column:sleepQuality"`
-	DomStudy                string `gorm:"column:domStudy"`
-	Smoke                   string `gorm:"column:smoke"`
-	Drink                   string `gorm:"column:drink"`
-	Snore                   string `gorm:"column:snore"`
-	ChattingSharinsThoushts string `gorm:"column:chattingSharinsThoushts"`
-	Leanliness              string `gorm:"column:leanliness"`
-	Cleaningfrsgueney       string `gorm:"column:cleaningfrsgueney"`
-	ShowerFrequency         string `gorm:"column:showerkrequency"`
-	MonthlyBudget           string `gorm:"column:monthlyBudset"`
-	JointOutings            string `gorm:"column:jointOutings"`
-	SharedExpenses          string `gorm:"column:sharedExpenses"`
-	SharedInterests         string `gorm:"column:sharedInterests"`
-}
+
 
 func InitRouter(r *gin.Engine) {
-
-	g1 := r.Group("/user")
-	{
-		g1.POST("/login/", controller.Login)
-	}
 	r.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusOK)
@@ -99,6 +67,17 @@ func InitRouter(r *gin.Engine) {
 		}
 		c.Next()
 	})
+	r.POST("/register" , controller.Register)
+	r.POST("/login" , controller.Login)
+	r.POST("/feedback", controller.Feedback)
+
+
+	g1 := r.Group("/auth")
+	g1.Use(midware.AuthMiddleware())
+	{
+		g1.POST("/check_session", midware.GetUserHandler)
+	}
+	
 	r.GET("/questionnaireInfo", func(c *gin.Context) {
 		questionnaireInfo := []QuestionnaireInfo{
 			{0, "2023 Freshman Second Questionnaire", "Enabled", 0, "0daaas"},
@@ -120,24 +99,34 @@ func InitRouter(r *gin.Engine) {
 	r.OPTIONS("/questionnaire", func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		c.Header("Access-Control-Allow-Headers", "Content-Type")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		c.Status(http.StatusOK)
 	})
+	r.Use(midware.AuthMiddleware())
 	r.POST("/questionnaire", func(c *gin.Context) {
+		fmt.Println("here is wrong --")
 		var requestData QuestionnaireData
 
 		if err := c.BindJSON(&requestData); err != nil {
 			c.JSON(400, gin.H{"error": "Failed to parse JSON"})
 			return
 		}
-		for i := 0; i < 60; i++ {
+		// for i := 0; i < 60; i++ {
 		dsn := "gorm.db"
 		db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 		if err != nil {
 			panic(err)
 		}
-		db.AutoMigrate(&UserBaseInfo{})
-		var data2 UserBaseInfo
+		fmt.Println("here is wrong --")
+		userID, exists := c.Get("UID")
+		if !exists {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Errorr"})
+			return
+		}
+		fmt.Println("here is wrong --")
+		db.AutoMigrate(&midware.UserBaseInfo{})
+		var data2 midware.UserBaseInfo
+		data2.UID = userID.(int64)
 		data2.Age = requestData.Age
 		data2.Name = requestData.Name
 		data2.Major = requestData.Major
@@ -147,17 +136,14 @@ func InitRouter(r *gin.Engine) {
 		} else {
 			data2.Sex = "1"
 		}
+		fmt.Println("here is wrong --")
 		data2.SychronizedSchedule = requestData.SameRoutine.(string)
 		data2.SpendingResponsibility = strings.Join(requestData.CostType, ",")
 		data2.Interests = strings.Join(requestData.Hobby, ",")
 		
 			db.Create(&data2)
-			// var uu = new(UserBaseInfo)
-			// db.First(uu)
-			// fmt.Printf("%#v\n", uu)
-
-			db.AutoMigrate(&UserQuestionnaireData{})
-			var data UserQuestionnaireData
+			db.AutoMigrate(&midware.UserQuestionnaireData{})
+			var data midware.UserQuestionnaireData
 
 			data.UID = data2.UID
 			data.BedTime = requestData.SleepTime.(string)
@@ -175,13 +161,7 @@ func InitRouter(r *gin.Engine) {
 			data.JointOutings = requestData.OutCost.(string)
 			data.SharedExpenses = requestData.ShareCost.(string)
 			data.SharedInterests = requestData.HobbySameExpection.(string)
-
 			db.Create(&data)
-		}
-		// db.Commit()
-		// var u = new(UserQuestionnaireData)
-		// db.Last(u)
-		// fmt.Printf("%#v\n", u)
-
 	})
+
 }

@@ -187,9 +187,9 @@ def writeAllocation(li:list[tuple],second=False):
         cur=db.cursor()
         for (uid,roomid) in li:
             if second:
-                cur.execute(f"update DistributionResult set ReassignResult={roomid} where UID={uid}")
+                cur.execute(f"update distribution_results set ReassignResult={roomid} where uid={uid}")
             else:
-                cur.execute(f"update DistributionResult set RoomNumber={roomid} where UID={uid}")
+                cur.execute(f"update distribution_results set RoomNumber={roomid} where uid={uid}")
 def ans_merge(*ansli):#合并
     sidlist=[]#
     cnt=0
@@ -251,7 +251,7 @@ def main_second():#二次分配
     allo={}#当前分配方案
     with sqlite3.connect(dbpath) as db:
         cur=db.cursor()
-        cur.execute(f"select UID,RoomNumber,DecisionForReassign from DistributionResult")
+        cur.execute(f"select uid,RoomNumber,DecisionForReassign from distribution_results")
         for uid,rid,reAllocation in cur:
             allo[uid]=rid
             if reAllocation:rids.add(rid)

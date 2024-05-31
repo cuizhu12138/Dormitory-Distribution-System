@@ -1,16 +1,6 @@
 # Dormitory-Distribution-System
 This project is an innovation and entrepreneurship project for college students of Harbin University of Science and Technology
 
-
-
-## About Dormitory-Distribution-System
-
-目前，我国高校宿舍分配主要依赖传统的人工方式，宿舍管理人员，如学生宿舍宿务辅导员，会主观评估学生的地域背景、学术成绩、性格特点、民族差异等因素，并采用地域搭配法、成绩搭配法、性格搭配法以及民族搭配法等方法来进行宿舍分配的决策。然而，这些传统的人工宿舍分配方法存在诸多问题，如效率低、效果差、主观性强、随机性大等，已无法满足当代大学生对个性化宿舍分配的需求。
-
-所以我们的项目致力于开发一款自动化的宿舍分配模型，以提高分配效率和准确性，推进宿舍管理的科技化和智能化进程。该模型能够客观地考虑学生的特点和偏好，避免主观评估和随机分配所带来的不确定性和不适应。同时，宿舍分配模型可以不断学习和优化，根据实际效果和反馈进行调整，逐渐提升分配的准确性和满意度。
-
-
-
 ## Why Dormitory-Distribution-System
 
 因为遗传算法具有普适性、灵活性和强大的可扩展性，同时具备高效获取最优解的潜力
@@ -28,10 +18,6 @@ This project is an innovation and entrepreneurship project for college students 
 （5）并行计算：遗传算法的并行化实现比较容易，利用高性能计算资源进行并行化计算能够显著提高算法的效率和速度。
 
 
-
-## Work flow
-
-![](/images/workflow.png)
 
 # vue
 
@@ -64,14 +50,27 @@ python 文件夹下运行
 `python3 Allocation.py --dbpath /Users/hao/Desktop/go/Dormitory-Distribution-System/gorm.db`
 
 ### drop
-drop table user_questionnaire_data;
+drop table user_questionnaire_datas;
 drop table user_base_infos;
 
 ### select
-select * from user_questionnaire_data;
+
+
+select * from user_questionnaire_datas;
 select * from user_base_infos;
 
-PRAGMA table_info(user_base_infos);
 
 python3 ./python/Allocation.py --dbpath gorm.db --image del.png --rounds=1000 --end_bound=100
-python3 ./python/Allocation.py --dbpath gorm.db --image del.png --rounds=1000 --end_bound=100
+
+## testtool脚本参数：
+g++ -o q_db q_db.cpp -lsqlite3
+
+g++ -o d_db d_db.cpp -lsqlite3
+
+./q_db -h 查看查询某个表的参数
+Use -1 for user_questionnaire_datas, -2 for user_base_infos, -3 for logins, -4 for user_feedbacks, -5 for information_feedbacks, and -6 for distribution_results.
+
+./d_db -h 查看删除某个表的参数
+Use -1 for user_questionnaire_datas, -2 for user_base_infos, -3 for logins, -4 for user_feedbacks, -5 for information_feedbacks, and -6 for distribution_results.
+
+对于sqlts文件，UID从2开始，为方便建表，我们将使用gorm自动建表，只需要在前端提交一条questionnaire（uid为1）就可以
