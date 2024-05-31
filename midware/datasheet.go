@@ -43,8 +43,6 @@ type UserQuestionnaireData struct {
 
 // 分配结果表
 type DistributionResult struct {
-	AllocationID        int64  `gorm:"column:AllocationID;auto_increment;primary_key"`
-	OptionInfo          string `gorm:"column:OptionInfo;          			type:NVARCHAR"`
 	RoomNumber          string `gorm:"column:RoomNumber;          			type:NVARCHAR"`
 	UID                 int64  `gorm:"column:UID;       					type:INT"`
 	DecisionForReassign string `gorm:"column:DecisionForReassign;           type:NVARCHAR"`

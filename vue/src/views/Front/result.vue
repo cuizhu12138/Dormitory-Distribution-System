@@ -211,7 +211,7 @@
 </template>
 
 <script>
-
+import { Message } from 'element-ui';
 import request from "@/utils/request";
 import axios from "axios"
 import {
@@ -285,12 +285,38 @@ export default {
       //   this.form=res.data
       // })
     },
-    Reassign(){
-      this.$message({
-        message: '收到重新分配需求！',
-        type: 'success'
-      });
-    }
+    Reassign() {
+      request.post("/reassign",{"context":"hello"}).then(res=>{
+        this.$message({
+          message: '收到重新分配需求！',
+          type: 'success'
+        })
+      },err=>{
+        Message.error(err)
+      })
+        // const requestData = {
+        //   data: "yes"
+        // };
+
+        // axios.post("/reassign", requestData)
+        //   .then(res => {
+        //     // 处理后端响应数据
+        //     console.log("后端响应:", res.data);
+            
+        //     // 显示消息
+        //     this.$message({
+        //       message: '收到重新分配需求！',
+        //       type: 'success'
+        //     });
+        //   })
+        //   .catch(error => {
+        //     // 处理请求错误
+        //     console.error("请求失败:", error);
+            
+        //     // 显示错误消息
+        //     this.$message.error('重新分配请求失败！');
+        //   });
+      }
   }
 }
 </script>

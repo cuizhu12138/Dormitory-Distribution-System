@@ -56,6 +56,7 @@ type QuestionnaireData struct {
 
 
 func InitRouter(r *gin.Engine) {
+	
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
@@ -72,11 +73,8 @@ func InitRouter(r *gin.Engine) {
 	
 
 
-	g1 := r.Group("/auth")
-	g1.Use(midware.AuthMiddleware())
-	{
-		g1.POST("/check_session", midware.GetUserHandler)
-	}
+	// g1 := r.Group("/auth")
+	r.Use(midware.AuthMiddleware())
 	
 	r.GET("/questionnaireInfo", func(c *gin.Context) {
 		questionnaireInfo := []QuestionnaireInfo{
@@ -84,7 +82,7 @@ func InitRouter(r *gin.Engine) {
 		}
 		c.JSON(http.StatusOK, questionnaireInfo)
 	})
-
+	
 	r.GET("/results", func(c *gin.Context) {
 		results := []Results{
 			{"林浩"},
@@ -103,6 +101,23 @@ func InitRouter(r *gin.Engine) {
 		c.Status(http.StatusOK)
 	})
 	r.Use(midware.AuthMiddleware())
+	r.POST("/reassign" , func(c *gin.Context){
+		var rs midware.DistributionResult
+		userID, exists := c.Get("UID")
+		if !exists {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Errorr"})
+			return
+		}
+		if err := midware.DB.Where("UID = ?" , userID).First(&rs).Error; err != nil{
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
+			return
+		}
+		rs.DecisionForReassign = "1"
+		if err := midware.DB.Save(&rs).Error;err!=nil{
+			panic("保存错误"+err.Error())
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "重新分配成功"})
+	})
 	r.POST("/feedback", controller.Feedback)
 	r.POST("/questionnaire", func(c *gin.Context) {
 		fmt.Println("here is wrong --")
