@@ -14,3 +14,7 @@ type LoginRequest struct{
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+type FeedbackRequest struct{
+	Context string `json:"context"`
+}
